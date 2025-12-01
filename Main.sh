@@ -40,82 +40,47 @@ clear_screen() {
     clear 2>/dev/null || printf "\033c"
 }
 
-damagochi(){
-    echo "  .------."
-    echo " /        \\         이름: "
-    echo "|  [ o  o ] |"
-    echo "|   .----.   |"
-    echo "|  /      \\  |"
-    echo "|  |      |  |"
-    echo "|  '------'  |"
-    echo " \\          /"
-    echo "  '--------'"
-}
+DAMAGOCHI_NAME=""
+set_name() {
+    local name_input # 사용자의 입력값을 저장할 지역 변수
 
-draw_title() {
-    echo -e "${CYAN}${BOLD}"
-    echo "────────────────────────────────────────────"
-    echo "            텍스트 다마고치"
-    echo "────────────────────────────────────────────"
-    echo -e "${RESET}"
-}
-
-draw_initial_menu() {
-    draw_title
-    echo -e "${YELLOW}${BOLD}메뉴${RESET}"
-    echo
-    echo "초기 화면입니다."
-    echo "다음 화면으로 넘어가려면 [y] 키를 누르세요."
-}
-
-wait_for_y() {
+    # set_name이 성공할 때까지 반복
     while true; do
-        # -n1 : 1글자만 읽기, -s : 입력 표시하지 않기
-        read -n1 -s key
-        case "$key" in
-            y|Y)
-                break
-                ;;
-            *)
-                # 다른 키면 무시하고 계속 대기
-                ;;
-        esac
+        read -p "다마고치의 이름을 입력해주세요 (7글자 이하): " name_input
+        
+        local name_length=${#name_input}
+        local success=0 # 성공 여부 플래그 (0: 성공, 1: 실패)
+
+        # 1. 이름 공백 검사
+        if [[ -z "$name_input" ]]; then
+            echo "⚠️ 오류: 이름을 입력해주세요."
+            success=1
+
+        # 2. 이름 길이 (7글자 이하) 검사
+        elif (( name_length > 7 )); then
+            echo "❌ 오류: 이름은 7글자를 초과할 수 없습니다. (현재 ${name_length}글자)"
+            success=1
+        
+        # 3. 이름 설정 성공
+        else
+            DAMAGOCHI_NAME="$name_input"
+            echo "✅ 다마고치 이름이 **${DAMAGOCHI_NAME}**(으)로 설정되었습니다."
+            success=0 # 성공
+        fi
+
+        # 성공(success=0)하면 루프를 종료하고, 실패(success=1)하면 다시 시도 메시지 출력 후 반복
+        if [ $success -eq 0 ]; then
+            break
+        else
+            echo "다시 시도해주세요."
+            echo "---"
+        fi
     done
 }
 
-# 메인
-main() {
-    clear_screen
-    draw_initial_menu
-    wait_for_y
-
-    # y를 눌러 넘어왔을 때 화면 전환
-    clear_screen
-    draw_title
-    echo
-    echo "다음 화면입니다. (여기서부터 '시작하기/갤러리/종료하기' 실제 로직 구현 예정)"
-    echo
-}
-
-main
-#!/usr/bin/env bash
-
-# =============================
-# 텍스트 다마고치 - 초기 화면 전용
-# =============================
-
-RESET="\033[0m"
-BOLD="\033[1m"
-CYAN="\033[36m"
-YELLOW="\033[33m"
-
-clear_screen() {
-    clear 2>/dev/null || printf "\033c"
-}
-
 damagochi(){
     echo "  .------."
-    echo " /        \\         이름: "
+    echo " /        \\         이름: $DAMAGOCHI_NAME"
     echo "|  [ o  o ] |"
     echo "|   .----.   |"
     echo "|  /      \\  |"
@@ -166,10 +131,10 @@ draw_NewGame(){
     echo " 포만감 95 | 행복 20"
     echo " 지능 10 | 외모 5 | 도덕 75"
     echo "────────────────────────────────────────────"
-    echo "  (a) 식사하기  (b) 책 읽기"
-    echo "  (c) 놀아주기  (d) 운동하기"
+    echo "  (a) 식사하기     (b) 책 읽기"
+    echo "  (c) 놀아주기     (d) 운동하기"
     echo "────────────────────────────────────────────"
-    echo "                      (e) 저장    (f) 종료"
+    echo "                      (e) 저장    (f) 게임 종료"
 
 }
 
@@ -191,6 +156,7 @@ wait_for_num() {
         case "$key" in
             1)
                 clear_screen
+                set_name
                 draw_NewGame
                 break
                 ;;
