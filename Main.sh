@@ -191,6 +191,29 @@ delete_game(){
 
 }
 
+Load_UserData () {
+ if [[ ! -f "user.txt" ]]; then
+        cat > "user.txt" <<EOF
+    END1=0
+    END2=0
+    END3=0
+    END4=0
+    END5=0
+    END6=0
+
+    ACH1=0
+    ACH2=0
+    ACH3=0
+EOF
+    fi
+
+    # user.txt가 존재하면 불러오기
+    source "user.txt"
+
+    # 권한 설정
+    chmod 444 "user.txt"
+}
+
 
 draw_Gallely(){
     echo "────────────────────────────────────────────"
@@ -198,6 +221,7 @@ draw_Gallely(){
     echo "────────────────────────────────────────────"
     echo "아직 해금된 엔딩이 없습니다."
     echo "아무 키나 눌러 메뉴로 돌아가세요..."
+    echo $END2
     read -n1 -s
     GAME_STATE="INIT"
 }
@@ -486,6 +510,8 @@ wait_for_menu() {
 GAME_STATE="INIT"
 # 메인
 main() {
+    Load_UserData
+
     while [ "$GAME_STATE" != "EXIT" ]; do
     
         # 현재 게임 상태에 따라 적절한 함수를 호출
@@ -518,9 +544,6 @@ main() {
                 ;;
         esac
     done
-    
-    echo "게임 종료."
-
 }
 
 main
