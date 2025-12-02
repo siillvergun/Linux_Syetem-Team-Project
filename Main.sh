@@ -187,6 +187,25 @@ draw_SaveAndLoad(){
     GAME_STATE="MENU"
 }
 
+InGame() {
+    TURN=1
+    set_name
+    
+    while [ $TURN -le $MAX_TURN ]; do
+        clear_screen
+        draw_Game
+        Control_Behave
+        TURN=$((TURN + 1))
+    done
+    
+    Ending
+}
+
+Ending(){
+    echo "엔딩"
+    GAME_STATE="INIT"
+}
+
 feed(){
     echo "밥 먹자 (+포만감, +행복)"
 }
@@ -199,70 +218,78 @@ play(){
 exercise(){
     echo "운동하자 (+외모, -포만감)"
 }
-save(){
-    echo "저장되었습니다 (기능 미구현)"
-}
-quit(){
-    echo "저장되지 않았습니다... 초기화면으로 돌아갑니다."
-    GAME_STATE="INIT" # 🌟🌟🌟 [수정]: 초기화면 복귀를 위한 상태 변경 🌟🌟🌟
-}
-
-InGame() {
-    set_name
-
-    while [ $TURN -le $MAX_TURN ]; do
-        clear_screen
-        draw_Game
-        Control_Behave
-        TURN=$((TURN + 1))
-    done
-    
-    Ending
-}
-
-Ending(){
-    GAME_STATE="INIT"
-}
 
 Control_Behave(){
         echo "다음 행동을 선택해주세요!"
 
-#메인화면 불러오기 인터페이스
-draw_LoadGame() 
-  {
+        while true; do
+        read -n1 -s key
+        case "$key" in
+            1)
+                feed
+                break
+                ;;
+            2)
+                book
+                break
+                ;;
+            3)
+                play
+                break
+                ;;
+            4)
+                exercise
+                break
+                ;;
+            s)
+                save
+                break
+                ;;
+            q)
+                quit
+                break
+                ;;
+            *)
+                # 다른 키면 무시하고 계속 대기
+                ;;
+        esac
+    done
+}
 
-      clear
+draw_SaveGame()
+{
+          clear
 
-save1_status="비어 있음"
-save2_status="비어 있음"
-save3_status="비어 있음"
+    save1_status="비어 있음"
+    save2_status="비어 있음"
+    save3_status="비어 있음"
 
-# 세이브 1
-if [[ -f save1.txt ]]; then
-    time=$(date -r save1.txt '+%Y-%m-%d %H:%M:%S 저장됨')
-    name=$(grep -E '^[[:space:]]*DAMAGOCHI_NAME=' save1.txt \
+    # 세이브 1
+    if [[ -f save1.txt ]]; then
+        time=$(date -r save1.txt '+%Y-%m-%d %H:%M:%S 저장됨')
+        name=$(grep -E '^[[:space:]]*DAMAGOCHI_NAME=' save1.txt \
            | sed 's/.*=//' \
            | tr -d '"\r')
-    save1_status="$time / 이름: $name"
-fi
+        save1_status="$time / 이름: $name"
+    fi
 
-# 세이브 2
-if [[ -f save2.txt ]]; then
-    time=$(date -r save2.txt '+%Y-%m-%d %H:%M:%S 저장됨')
-    name=$(grep -E '^[[:space:]]*DAMAGOCHI_NAME=' save2.txt \
+    # 세이브 2
+    if [[ -f save2.txt ]]; then
+        time=$(date -r save2.txt '+%Y-%m-%d %H:%M:%S 저장됨')
+        name=$(grep -E '^[[:space:]]*DAMAGOCHI_NAME=' save2.txt \
        | sed 's/.*=//' \
        | tr -d '"\r')
-    save2_status="$time / 이름: $name"
-fi
+        save2_status="$time / 이름: $name"
+    fi
 
-# 세이브 3
-if [[ -f save3.txt ]]; then
-    time=$(date -r save3.txt '+%Y-%m-%d %H:%M:%S 저장됨')
-    name=$(grep -E '^[[:space:]]*DAMAGOCHI_NAME=' save3.txt \
+    # 세이브 3
+    if [[ -f save3.txt ]]; then
+        time=$(date -r save3.txt '+%Y-%m-%d %H:%M:%S 저장됨')
+        name=$(grep -E '^[[:space:]]*DAMAGOCHI_NAME=' save3.txt \
        | sed 's/.*=//' \
        | tr -d '"\r')
-    save3_status="$time / 이름: $name"
-fi
+        save3_status="$time / 이름: $name"
+    fi
 
     cat <<EOF
                 📁 저장 기록
@@ -271,12 +298,90 @@ fi
   [2] 세이브 2 : $save2_status
   [3] 세이브 3 : $save3_status
 
-                  📂 불러오기
-----------------------------------------------
-   1) 1번 세이브 불러오기  4) 1번 세이브 삭제
-   2) 2번 세이브 불러오기  5) 2번 세이브 삭제
-   3) 3번 세이브 불러오기  6) 3번 세이브 삭제
+                  📂 저장
+    ----------------------------------------------
+    1) 1번 세이브 저장
+    2) 2번 세이브 저장
+    3) 3번 세이브 저장
 EOF
+        while true; do
+        read -n1 -s key
+        case "$key" in
+            1)
+                clear
+                save_game 1
+                break
+                ;;
+            2)
+               clear
+               save_game 2
+                break
+                ;;
+            3) 
+               clear
+               save_game 3
+                break
+                ;;
+            *)
+                # 다른 키면 무시하고 계속 대기
+                ;;
+        esac
+    done
+
+    draw_Game
+}
+
+#메인화면 불러오기 인터페이스
+draw_LoadGame() 
+{
+
+    clear
+
+    save1_status="비어 있음"
+    save2_status="비어 있음"
+    save3_status="비어 있음"
+
+    # 세이브 1
+    if [[ -f save1.txt ]]; then
+        time=$(date -r save1.txt '+%Y-%m-%d %H:%M:%S 저장됨')
+        name=$(grep -E '^[[:space:]]*DAMAGOCHI_NAME=' save1.txt \
+           | sed 's/.*=//' \
+           | tr -d '"\r')
+        save1_status="$time / 이름: $name"
+    fi
+
+    # 세이브 2
+    if [[ -f save2.txt ]]; then
+        time=$(date -r save2.txt '+%Y-%m-%d %H:%M:%S 저장됨')
+        name=$(grep -E '^[[:space:]]*DAMAGOCHI_NAME=' save2.txt \
+        | sed 's/.*=//' \
+        | tr -d '"\r')
+        save2_status="$time / 이름: $name"
+    fi
+
+    # 세이브 3
+    if [[ -f save3.txt ]]; then
+        time=$(date -r save3.txt '+%Y-%m-%d %H:%M:%S 저장됨')
+        name=$(grep -E '^[[:space:]]*DAMAGOCHI_NAME=' save3.txt \
+        | sed 's/.*=//' \
+        | tr -d '"\r')
+        save3_status="$time / 이름: $name"
+    fi
+
+        cat <<EOF
+            📁 저장 기록
+
+  [1] 세이브 1 : $save1_status
+  [2] 세이브 2 : $save2_status
+  [3] 세이브 3 : $save3_status
+
+                  📂 불러오기
+    ----------------------------------------------
+    1) 1번 세이브 불러오기  4) 1번 세이브 삭제
+    2) 2번 세이브 불러오기  5) 2번 세이브 삭제
+    3) 3번 세이브 불러오기  6) 3번 세이브 삭제
+EOF
+
         while true; do
         read -n1 -s key
         case "$key" in
@@ -317,118 +422,7 @@ EOF
     done
 
     InGame
-  
-  }
-
-  draw_SaveGame()
-  {
-          clear
-
-save1_status="비어 있음"
-save2_status="비어 있음"
-save3_status="비어 있음"
-
-# 세이브 1
-if [[ -f save1.txt ]]; then
-    time=$(date -r save1.txt '+%Y-%m-%d %H:%M:%S 저장됨')
-    name=$(grep -E '^[[:space:]]*DAMAGOCHI_NAME=' save1.txt \
-           | sed 's/.*=//' \
-           | tr -d '"\r')
-    save1_status="$time / 이름: $name"
-fi
-
-# 세이브 2
-if [[ -f save2.txt ]]; then
-    time=$(date -r save2.txt '+%Y-%m-%d %H:%M:%S 저장됨')
-    name=$(grep -E '^[[:space:]]*DAMAGOCHI_NAME=' save2.txt \
-       | sed 's/.*=//' \
-       | tr -d '"\r')
-    save2_status="$time / 이름: $name"
-fi
-
-# 세이브 3
-if [[ -f save3.txt ]]; then
-    time=$(date -r save3.txt '+%Y-%m-%d %H:%M:%S 저장됨')
-    name=$(grep -E '^[[:space:]]*DAMAGOCHI_NAME=' save3.txt \
-       | sed 's/.*=//' \
-       | tr -d '"\r')
-    save3_status="$time / 이름: $name"
-fi
-
-    cat <<EOF
-                📁 저장 기록
-
-  [1] 세이브 1 : $save1_status
-  [2] 세이브 2 : $save2_status
-  [3] 세이브 3 : $save3_status
-
-                  📂 저장
-----------------------------------------------
-   1) 1번 세이브 저장
-   2) 2번 세이브 저장
-   3) 3번 세이브 저장
-EOF
-        while true; do
-        read -n1 -s key
-        case "$key" in
-            1)
-                clear
-                save_game 1
-                break
-                ;;
-            2)
-               clear
-               save_game 2
-                break
-                ;;
-            3) 
-               clear
-               save_game 3
-                break
-                ;;
-            *)
-                # 다른 키면 무시하고 계속 대기
-                ;;
-        esac
-    done
-
-    draw_Game
-  }
-
-        while true; do
-        read -n1 -s key
-        case "$key" in
-            1)
-                feed
-                break
-                ;;
-            2)
-                book
-                break
-                ;;
-            3)
-                play
-                break
-                ;;
-            4)
-                exercise
-                break
-                ;;
-            s)
-                save
-                break
-                ;;
-            q)
-                quit
-                break
-                ;;
-            *)
-                # 다른 키면 무시하고 계속 대기
-                ;;
-        esac
-    done
 }
-
 
 wait_for_menu() {
     while true; do
@@ -437,19 +431,16 @@ wait_for_menu() {
             1)
                 clear_screen
                 GAME_STATE="INGAME"
-                echo "1"
                 break
                 ;;
             2)
                 clear_screen
                 GAME_STATE="GALLAY"
-                draw_LoadGame
                 break
                 ;;
             3) 
                 clear_screen
                 GAME_STATE="SAVE&LOAD"
-                draw_Gallely
                 break
                 ;;
             4)
@@ -489,7 +480,7 @@ main() {
                 ;;
             
             "SAVE&LOAD")
-                draw_SaveAndLoad
+                draw_LoadGame
                 ;;
 
             *)
