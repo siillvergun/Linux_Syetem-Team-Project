@@ -11,6 +11,8 @@ SOCIAL=50 #사회성
 VISUAL=50 #외모
 MORAL=50 #도덕성
 
+DICE_RES=0 #주사위 결과 저장용 변수
+
 #엔딩 해금 확인용 BOOL 변수
 END1=0
 END2=0
@@ -36,6 +38,12 @@ Clear_Vari()
     SOCIAL=50 #사회성
     VISUAL=50 #외모
     MORAL=50 #도덕성
+}
+
+#주사위 던지기 1~6 사이 숫자가 나옴. 호출만 하면 DICE_RES에 값이 들어가니 그것을 이용하면됨.
+Dice_Roll() {
+    DICE_RES=$(( RANDOM % 6 + 1))
+    echo "$DICE_RES"
 }
 
 
@@ -191,12 +199,11 @@ draw_Gallely(){
     echo "아직 해금된 엔딩이 없습니다."
     echo "아무 키나 눌러 메뉴로 돌아가세요..."
     read -n1 -s
-    GAME_STATE="MENU"
+    GAME_STATE="INIT"
 }
 
 InGame() {    
     while [ $TURN -le $MAX_TURN ]; do
-        clear_screen
         draw_Game
         Control_Behave
         TURN=$((TURN + 1))
@@ -230,27 +237,32 @@ Control_Behave(){
         read -n1 -s key
         case "$key" in
             1)
+                clear_screen
                 feed
                 break
                 ;;
             2)
+                clear_screen
                 book
                 break
                 ;;
             3)
+                clear_screen
                 play
                 break
                 ;;
             4)
+                clear_screen
                 exercise
                 break
                 ;;
             e|E)
+                clear_screen
                 draw_SaveGame
                 break
                 ;;
             q|Q)
-                clear
+                clear_screen
                 echo "게임 종료.."
                 exit 0
                 break
@@ -485,7 +497,7 @@ main() {
                 ;;
                 
             "INGAME")
-                TURN=1
+                Clear_Vari
                 set_name
                 InGame # 게임 진행 및 사용자 행동 제어 시작
                 ;;
