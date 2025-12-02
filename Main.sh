@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+DAMAGOCHI_NAME=""
 TURN=1 # 현재 턴
 MAX_TURN=30 # 최대 턴
 
@@ -23,6 +24,21 @@ ACH1=0
 ACH2=0
 ACH3=0
 
+Clear_Vari()
+{
+    DAMAGOCHI_NAME=""
+    TURN=1 # 현재 턴
+    MAX_TURN=30 # 최대 턴
+
+    FEED=70 # 포만감
+    HAPPY=100 # 행복
+
+    SOCIAL=50 #사회성
+    VISUAL=50 #외모
+    MORAL=50 #도덕성
+}
+
+
 RESET="\033[0m"
 BOLD="\033[1m"
 CYAN="\033[36m"
@@ -32,7 +48,6 @@ clear_screen() {
     clear 2>/dev/null || printf "\033c"
 }
 
-DAMAGOCHI_NAME=""
 set_name() {
     local name_input # 사용자의 입력값을 저장할 지역 변수
 
@@ -113,7 +128,7 @@ draw_Game(){
     echo "  (1) 식사하기     (2) 책 읽기"
     echo "  (3) 놀아주기     (4) 운동하기"
     echo "────────────────────────────────────────────"
-    echo "                 (e) 저장    (f) 게임 종료     "
+    echo "                 (e) 저장    (q) 게임 종료     "
 }
 
 save_game(){
@@ -133,7 +148,7 @@ save_game(){
     MORAL=$MORAL
 EOF
 
-    chmod 444 save.txt
+    chmod 444 $file
     echo "게임이 저장되었습니다!"
 
 }
@@ -147,8 +162,10 @@ load_game(){
     if [[ -f "$file" ]]; then
         source "$file"
         echo "${slot}번 세이브를 불러왔습니다!"
+        GAME_STATE="LDAGAME"
     else
         echo "⚠ ${slot}번 세이브는 비어 있습니다! 불러올 수 없습니다."
+        GAME_STATE="INIT"
     fi
 }
 
@@ -177,20 +194,7 @@ draw_Gallely(){
     GAME_STATE="MENU"
 }
 
-draw_SaveAndLoad(){
-    echo "────────────────────────────────────────────"
-    echo "              저장 & 로드 화면"
-    echo "────────────────────────────────────────────"
-    echo "현재 저장/불러오기 기능은 미구현 상태입니다."
-    echo "아무 키나 눌러 메뉴로 돌아가세요..."
-    read -n1 -s
-    GAME_STATE="MENU"
-}
-
-InGame() {
-    TURN=1
-    set_name
-    
+InGame() {    
     while [ $TURN -le $MAX_TURN ]; do
         clear_screen
         draw_Game
@@ -241,12 +245,14 @@ Control_Behave(){
                 exercise
                 break
                 ;;
-            s)
-                save
+            e|E)
+                draw_SaveGame
                 break
                 ;;
-            q)
-                quit
+            q|Q)
+                clear
+                echo "게임 종료.."
+                exit 0
                 break
                 ;;
             *)
@@ -329,6 +335,7 @@ EOF
     done
 
     draw_Game
+    Control_Behave
 }
 
 #메인화면 불러오기 인터페이스
@@ -371,15 +378,17 @@ draw_LoadGame()
         cat <<EOF
             📁 저장 기록
 
-  [1] 세이브 1 : $save1_status
-  [2] 세이브 2 : $save2_status
-  [3] 세이브 3 : $save3_status
+    [1] 세이브 1 : $save1_status
+    [2] 세이브 2 : $save2_status
+    [3] 세이브 3 : $save3_status
 
                   📂 불러오기
     ----------------------------------------------
     1) 1번 세이브 불러오기  4) 1번 세이브 삭제
     2) 2번 세이브 불러오기  5) 2번 세이브 삭제
     3) 3번 세이브 불러오기  6) 3번 세이브 삭제
+    ----------------------------------------------
+    아무 키나 입력하면 메인으로 돌아갑니다.
 EOF
 
         while true; do
@@ -403,25 +412,28 @@ EOF
             4) 
                 clear
                delete_game 1
-                break
+               GAME_STATE="INIT"
+               break;
                 ;;
             5) 
                 clear
                delete_game 2
+               GAME_STATE="INIT"
                 break
                 ;;
             6) 
                 clear
                delete_game 3
+               GAME_STATE="INIT"
                 break
                 ;;    
             *)
-                # 다른 키면 무시하고 계속 대기
+                clear
+                GAME_STATE="INIT"
+                break;
                 ;;
         esac
     done
-
-    InGame
 }
 
 wait_for_menu() {
@@ -435,12 +447,13 @@ wait_for_menu() {
                 ;;
             2)
                 clear_screen
-                GAME_STATE="GALLAY"
+                GAME_STATE="LOAD"
                 break
                 ;;
+                
             3) 
                 clear_screen
-                GAME_STATE="SAVE&LOAD"
+                GAME_STATE="GALLAY"
                 break
                 ;;
             4)
@@ -472,14 +485,18 @@ main() {
                 ;;
                 
             "INGAME")
+                TURN=1
+                set_name
                 InGame # 게임 진행 및 사용자 행동 제어 시작
                 ;;
-
+            "LDAGAME")
+                InGame
+                ;;
             "GALLAY")
                 draw_Gallely
                 ;;
             
-            "SAVE&LOAD")
+            "LOAD")
                 draw_LoadGame
                 ;;
 
