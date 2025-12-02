@@ -43,9 +43,8 @@ Clear_Vari()
 #주사위 던지기 1~6 사이 숫자가 나옴. 호출만 하면 DICE_RES에 값이 들어가니 그것을 이용하면됨.
 Dice_Roll() {
     DICE_RES=$(( RANDOM % 6 + 1))
-    echo "$DICE_RES"
 }
-
+EVENT_RES=""
 
 RESET="\033[0m"
 BOLD="\033[1m"
@@ -57,6 +56,7 @@ clear_screen() {
 }
 
 set_name() {
+    echo
     local name_input # 사용자의 입력값을 저장할 지역 변수
 
     # set_name이 성공할 때까지 반복
@@ -79,7 +79,6 @@ set_name() {
         # 3. 이름 설정 성공
         else
             DAMAGOCHI_NAME="$name_input"
-            echo "✅ 다마고치 이름이 **${DAMAGOCHI_NAME}**(으)로 설정되었습니다."
             success=0 # 성공
         fi
 
@@ -129,7 +128,13 @@ draw_Game(){
     echo "────────────────────────────────────────────"
     damagochi
     echo "────────────────────────────────────────────"
-    echo "[1일차 결과]"
+    if [ "$TURN" -gt 1 ]; then
+        # 이전 턴( TURN-1 ) 결과 출력
+        local prev_turn=$((TURN - 1))
+        echo "[${prev_turn}일차 결과]: $EVENT_RES"
+        echo "$EVENT_SCRIPT"
+    fi
+    echo "────────────────────────────────────────────"
     echo " 포만감 $FEED | 행복 $HAPPY"
     echo " 사회성 $SOCIAL | 외모 $VISUAL | 도덕 $MORAL"
     echo "────────────────────────────────────────────"
@@ -252,17 +257,244 @@ Ending(){
     GAME_STATE="INIT"
 }
 
+EVENT_SCRIPT=""
+Random_Event_Script_Feed(){
+    # 밥 먹기 전용 랜덤 멘트
+    case "$DICE_RES" in
+        1)  # 대실패
+            local r=$(( RANDOM % 3 ))
+            case "$r" in
+                0) EVENT_SCRIPT="$DAMAGOCHI_NAME가 밥그릇을 통째로 엎어버렸다..." ;;
+                1) EVENT_SCRIPT="밥을 태워버려서 결국 굶게 되었다..." ;;
+                2) EVENT_SCRIPT="밥 대신 숟가락만 만지작거리다가 식사가 끝났다." ;;
+            esac
+            ;;
+        2|3)  # 실패
+            local r=$(( RANDOM % 3 ))
+            case "$r" in
+                0) EVENT_SCRIPT="편식을 해서 반쯤만 먹고 말았다." ;;
+                1) EVENT_SCRIPT="밥보다 장난감이 더 좋은지 몇 입 먹고 일어났다." ;;
+                2) EVENT_SCRIPT="밥을 조금 먹더니 금방 흥미를 잃어버렸다." ;;
+            esac
+            ;;
+        4)  # 아무 일도
+            local r=$(( RANDOM % 3 ))
+            case "$r" in
+                0) EVENT_SCRIPT="아무 일도 없었다. 아주 평범한 식사 시간이었다." ;;
+                1) EVENT_SCRIPT="$DAMAGOCHI_NAME는 조용히 밥을 먹고 물 한 모금 마셨다." ;;
+                2) EVENT_SCRIPT="특별한 일은 없었지만, 무난하게 끼니를 해결했다." ;;
+            esac
+            ;;
+        5)  # 성공
+            local r=$(( RANDOM % 3 ))
+            case "$r" in
+                0) EVENT_SCRIPT="밥을 맛있게 먹고 배를 두드리며 만족해한다." ;;
+                1) EVENT_SCRIPT="골고루 잘 먹어서 포만감이 올라간 것 같다." ;;
+                2) EVENT_SCRIPT="남기지 않고 깔끔하게 그릇을 비웠다." ;;
+            esac
+            ;;
+        6)  # 대성공
+            local r=$(( RANDOM % 3 ))
+            case "$r" in
+                0) EVENT_SCRIPT="$DAMAGOCHI_NAME가 폭풍흡입을 하고 행복하게 트림을 했다." ;;
+                1) EVENT_SCRIPT="추가로 한 그릇 더 먹고 기운이 불끈 솟아났다." ;;
+                2) EVENT_SCRIPT="식사 시간이 소소한 축제처럼 느껴졌다." ;;
+            esac
+            ;;
+    esac
+}
+
+Random_Event_Script_Read(){
+    # 책 읽기 전용 랜덤 멘트
+    case "$DICE_RES" in
+        1)  # 대실패
+            local r=$(( RANDOM % 3 ))
+            case "$r" in
+                0) EVENT_SCRIPT="책을 펼치자마자 잠이 쏟아져 그대로 자버렸다." ;;
+                1) EVENT_SCRIPT="책을 거꾸로 들고 한참을 보고 있었다..." ;;
+                2) EVENT_SCRIPT="첫 페이지를 넘기기도 전에 집중력을 완전히 잃었다." ;;
+            esac
+            ;;
+        2|3)  # 실패
+            local r=$(( RANDOM % 3 ))
+            case "$r" in
+                0) EVENT_SCRIPT="몇 줄 읽다가 핸드폰 생각이 나서 책을 덮어버렸다." ;;
+                1) EVENT_SCRIPT="같은 줄만 계속 읽다가 포기해버렸다." ;;
+                2) EVENT_SCRIPT="내용이 너무 어려워서 머리 위로 물음표만 떠다녔다." ;;
+            esac
+            ;;
+        4)  # 아무 일도
+            local r=$(( RANDOM % 3 ))
+            case "$r" in
+                0) EVENT_SCRIPT="특별한 감흥 없이, 그럭저럭 책 한 챕터를 읽었다." ;;
+                1) EVENT_SCRIPT="$DAMAGOCHI_NAME는 조용히 책장을 넘기며 시간을 보냈다." ;;
+                2) EVENT_SCRIPT="아무 일도 없었지만, 약간은 지식이 늘어난 느낌이다." ;;
+            esac
+            ;;
+        5)  # 성공
+            local r=$(( RANDOM % 3 ))
+            case "$r" in
+                0) EVENT_SCRIPT="흥미로운 부분을 발견하고 눈을 반짝였다." ;;
+                1) EVENT_SCRIPT="새로운 단어와 표현을 몇 개나 배웠다." ;;
+                2) EVENT_SCRIPT="책 속 이야기에 빠져서 시간 가는 줄 몰랐다." ;;
+            esac
+            ;;
+        6)  # 대성공
+            local r=$(( RANDOM % 3 ))
+            case "$r" in
+                0) EVENT_SCRIPT="인생 문장을 발견하고 깊은 감동을 받았다." ;;
+                1) EVENT_SCRIPT="책의 내용을 자기 삶에 적용해보겠다고 다짐했다." ;;
+                2) EVENT_SCRIPT="독서 후 $DAMAGOCHI_NAME의 눈빛이 한층 똑똑해졌다." ;;
+            esac
+            ;;
+    esac
+}
+
+Random_Event_Script_Play(){
+    # 놀아주기 전용 랜덤 멘트
+    case "$DICE_RES" in
+        1)  # 대실패
+            local r=$(( RANDOM % 3 ))
+            case "$r" in
+                0) EVENT_SCRIPT="뛰어놀다가 넘어져서 울음을 터뜨렸다." ;;
+                1) EVENT_SCRIPT="장난감이 부서져버려서 분위기가 싸해졌다." ;;
+                2) EVENT_SCRIPT="서로 오해가 생겨서 놀이가 싸움이 되어버렸다." ;;
+            esac
+            ;;
+        2|3)  # 실패
+            local r=$(( RANDOM % 3 ))
+            case "$r" in
+                0) EVENT_SCRIPT="놀다가 금방 흥미를 잃고 시무룩해졌다." ;;
+                1) EVENT_SCRIPT="게임 룰을 잘 몰라서 어수선하게 끝났다." ;;
+                2) EVENT_SCRIPT="기대만큼 재미있진 않았던 시간." ;;
+            esac
+            ;;
+        4)  # 아무 일도
+            local r=$(( RANDOM % 3 ))
+            case "$r" in
+                0) EVENT_SCRIPT="적당히 즐겁게 놀고, 무난하게 시간이 흘렀다." ;;
+                1) EVENT_SCRIPT="$DAMAGOCHI_NAME는 조용히 혼자 블록을 쌓으며 놀았다." ;;
+                2) EVENT_SCRIPT="크게 웃지도, 그렇다고 지루하지도 않은 평범한 놀이 시간." ;;
+            esac
+            ;;
+        5)  # 성공
+            local r=$(( RANDOM % 3 ))
+            case "$r" in
+                0) EVENT_SCRIPT="깔깔 웃으면서 신나게 놀았다." ;;
+                1) EVENT_SCRIPT="새로운 게임을 만들어서 둘만의 유행놀이가 생겼다." ;;
+                2) EVENT_SCRIPT="놀이가 끝나고도 여운이 남는 즐거운 시간이었다." ;;
+            esac
+            ;;
+        6)  # 대성공
+            local r=$(( RANDOM % 3 ))
+            case "$r" in
+                0) EVENT_SCRIPT="웃다가 배가 아플 정도로 즐거운 시간을 보냈다." ;;
+                1) EVENT_SCRIPT="$DAMAGOCHI_NAME가 '또 놀자!'를 연발했다." ;;
+                2) EVENT_SCRIPT="오늘 놀았던 일은 오래 기억에 남을 것 같다." ;;
+            esac
+            ;;
+    esac
+}
+
+Random_Event_Script_Exercise(){
+    # 운동하기 전용 랜덤 멘트
+    case "$DICE_RES" in
+        1)  # 대실패
+            local r=$(( RANDOM % 3 ))
+            case "$r" in
+                0) EVENT_SCRIPT="준비운동도 안 하고 뛰었다가 다리에 쥐가 났다." ;;
+                1) EVENT_SCRIPT="비에 젖어 감기에 걸릴 것 같은 불길한 예감이 든다." ;;
+                2) EVENT_SCRIPT="운동장에 나가자마자 비가 쏟아져 그냥 돌아왔다." ;;
+            esac
+            ;;
+        2|3)  # 실패
+            local r=$(( RANDOM % 3 ))
+            case "$r" in
+                0) EVENT_SCRIPT="조금만 뛰었는데 숨이 차서 바로 포기했다." ;;
+                1) EVENT_SCRIPT="체력이 부족해 중간에 벤치에 주저앉아버렸다." ;;
+                2) EVENT_SCRIPT="동작이 잘 안 되어서 의욕이 떨어졌다." ;;
+            esac
+            ;;
+        4)  # 아무 일도
+            local r=$(( RANDOM % 3 ))
+            case "$r" in
+                0) EVENT_SCRIPT="무난하게 스트레칭과 가벼운 운동을 마쳤다." ;;
+                1) EVENT_SCRIPT="$DAMAGOCHI_NAME는 땀을 조금 흘리고 상쾌해진 기분이다." ;;
+                2) EVENT_SCRIPT="특별한 성과는 없지만, 몸을 조금은 풀어준 느낌이다." ;;
+            esac
+            ;;
+        5)  # 성공
+            local r=$(( RANDOM % 3 ))
+            case "$r" in
+                0) EVENT_SCRIPT="땀이 송글송글 맺힐 정도로 열심히 운동했다." ;;
+                1) EVENT_SCRIPT="운동 후 물 한 잔과 함께 개운함을 느꼈다." ;;
+                2) EVENT_SCRIPT="체력이 조금은 늘어난 것 같은 자신감이 생겼다." ;;
+            esac
+            ;;
+        6)  # 대성공
+            local r=$(( RANDOM % 3 ))
+            case "$r" in
+                0) EVENT_SCRIPT="완벽한 운동 루틴을 소화하고 뿌듯해한다." ;;
+                1) EVENT_SCRIPT="$DAMAGOCHI_NAME의 몸이 한층 건강해진 느낌이다." ;;
+                2) EVENT_SCRIPT="운동 후 상쾌함과 함께 기분도 최고가 되었다." ;;
+            esac
+            ;;
+    esac
+}
+
+
+Random_Event(){
+    echo "🎲 주사위를 굴리는 중..."
+    Dice_Roll
+    echo "..."
+    sleep 0.9
+    echo "..."
+    sleep 0.9
+    echo "..."
+    sleep 0.9
+    
+    case "$DICE_RES" in
+        1)
+            EVENT_RES="--- 대실패!! ---"
+            ;;
+        2|3)
+            EVENT_RES="--- 실 패! ---"
+            ;;
+        4)
+            EVENT_RES="--- 아무일도 일어나지 않았습니다... ---"
+            ;;
+        5)
+            EVENT_RES="--- 성 공! ---"
+            ;;
+        6)
+            EVENT_RES="--- 대성공!! ---"
+            ;;
+        *)
+            echo "주사위 결과 오류"
+            ;;
+    esac
+    echo "────────────────────────────────────────────"
+}
+
 feed(){
-    echo "밥 먹자 (+포만감, +행복)"
+    echo "밥 먹자~"
+    Random_Event
+    Random_Event_Script_Feed
 }
 book(){
-    echo "책 읽자 (+도덕성, +사회성)"
+    echo "독서하자~"
+    Random_Event
+    Random_Event_Script_Read
 }
 play(){
-    echo "놀자 (+행복, +사회성)"
+    echo "놀자~"
+    Random_Event
+    Random_Event_Script_Play
 }
 exercise(){
-    echo "운동하자 (+외모, -포만감)"
+    echo "운동하자~"
+    Random_Event
+    Random_Event_Script_Exercise
 }
 
 Control_Behave(){
