@@ -227,17 +227,28 @@ draw_Gallely(){
 }
 
 InGame() {    
-    while [ $TURN -le $MAX_TURN ]; do
+    while [ "$TURN" -le "$MAX_TURN" ]; do
+        clear_screen
         draw_Game
         Control_Behave
+        
+        if [ "$GAME_STATE" = "INIT" ]; then
+            break
+        fi
+
         TURN=$((TURN + 1))
     done
     
-    Ending
+    if [ "$TURN" -gt "$MAX_TURN" ]; then
+        Ending
+    fi
 }
 
 Ending(){
-    echo "엔딩"
+    echo "🎉 30일이 경과하여 다마고치 엔딩을 맞이합니다!"
+    # 엔딩 결과에 따라 메세지 출력 로직 추가 예정
+    echo "아무 키나 눌러 초기화면으로 돌아가세요..."
+    read -n1 -s
     GAME_STATE="INIT"
 }
 
@@ -287,8 +298,8 @@ Control_Behave(){
                 ;;
             q|Q)
                 clear_screen
-                echo "게임 종료.."
-                exit 0
+                echo "초기 메뉴로 돌아갑니다."
+                GAME_STATE="INIT" 
                 break
                 ;;
             *)
