@@ -5,7 +5,7 @@ TURN=1 # 현재 턴
 MAX_TURN=30 # 최대 턴
 
 FEED=70 # 포만감
-HAPPY=100 # 행복
+HAPPY=70 # 행복
 
 SOCIAL=50 #사회성
 VISUAL=50 #외모
@@ -25,6 +25,28 @@ END6=0
 ACH1=0
 ACH2=0
 ACH3=0
+
+clamp_stats() {
+    # FEED
+    [ "$FEED" -lt 0 ]   && FEED=0
+    [ "$FEED" -gt 100 ] && FEED=100
+
+    # HAPPY
+    [ "$HAPPY" -lt 0 ]   && HAPPY=0
+    [ "$HAPPY" -gt 100 ] && HAPPY=100
+
+    # SOCIAL
+    [ "$SOCIAL" -lt 0 ]   && SOCIAL=0
+    [ "$SOCIAL" -gt 100 ] && SOCIAL=100
+
+    # VISUAL
+    [ "$VISUAL" -lt 0 ]   && VISUAL=0
+    [ "$VISUAL" -gt 100 ] && VISUAL=100
+
+    # MORAL
+    [ "$MORAL" -lt 0 ]   && MORAL=0
+    [ "$MORAL" -gt 100 ] && MORAL=100
+}
 
 Clear_Vari()
 {
@@ -232,14 +254,31 @@ draw_Gallely(){
     GAME_STATE="INIT"
 }
 
-# draw_Next_Turn(){
+draw_Next_Turn(){
+    clear_screen
+    echo "────────────────────────────────────────────"
+    echo "  다음 날이 밝았습니다."
+    echo "  아무 키나 눌러 오늘의 상황을 확인하세요."
+    echo "────────────────────────────────────────────"
+    read -n1 -s   # 키 입력 대기
 
-# }
+    # 돌발 이벤트 체크
+    Random_Event2  # 여기서 Dice_Roll + DICE_RES 세팅
+
+    # DICE_RES가 1 또는 2일 때만 돌발 이벤트 멘트 출력
+    if [ "$DICE_RES" -eq 1 ] || [ "$DICE_RES" -eq 2 ]; then
+        Random_Event2_Script
+        echo "$EVENT_SCRIPT2"
+        echo "────────────────────────────────────────────"
+        echo "아무 키나 눌러 게임을 계속합니다..."
+        read -n1 -s
+    fi
+}
+
 
 InGame() {
-#   draw_Next_Turn
-
     while [ "$TURN" -le "$MAX_TURN" ]; do
+        draw_Next_Turn
         clear_screen
         draw_Game
         Control_Behave
