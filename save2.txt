@@ -1,9 +1,9 @@
 
-    DAMAGOCHI_NAME=d
-    TURN=1
+    DAMAGOCHI_NAME=엔딩테스트용
+    TURN=30
     MAX_TURN=30
     FEED=70
     HAPPY=100
-    SOCIAL=50 
-    VISUAL=50 
-    MORAL=50
+    SOCIAL=100 
+    VISUAL=100
+    MORAL=100

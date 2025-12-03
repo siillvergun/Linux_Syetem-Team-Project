@@ -28,6 +28,146 @@ ACH1=0
 ACH2=0
 ACH3=0
 
+
+damagochi(){
+    echo "  .------."
+    echo " /        \\         이름: $DAMAGOCHI_NAME"
+    echo "|  [ o  o ] |"
+    echo "|   .----.   |"
+    echo "|  /      \\  |"
+    echo "|  |      |  |"
+    echo "|  '------'  |"
+    echo " \\          /"
+    echo "  '--------'"
+}
+
+damagochi_triple_high(){
+echo "  .------."
+echo " /  ☆★☆  \\        이름: $DAMAGOCHI_NAME"
+echo "|  [ ^  ^ ] |"
+echo "|   .✨✨.   |"
+echo "|  /      \\ |"
+echo "|  | KING | |"
+echo "|  '------'  |"
+echo " \\   ★★★   /"
+echo "  '--------'"
+}
+
+
+damagochi_star(){
+echo "  .------."
+echo " /  ✦✦✦  \\        이름: $DAMAGOCHI_NAME"
+echo "|  [ ★  ★ ] |"
+echo "|   .----.   |"
+echo "|  /  😎   \\ |"
+echo "|  | STAR | |"
+echo "|  '------'  |"
+echo " \\  ✦✦✦   /"
+echo "  '--------'"
+}
+
+
+
+damagochi_sage(){
+echo "  .------."
+echo " /  禮義智  \\       이름: $DAMAGOCHI_NAME"
+echo "|  [ ^  ^ ] |"
+echo "|   .----.   |"
+echo "|  /  ☘️   \\ |"
+echo "|  | 善良 | |"
+echo "|  '------'  |"
+echo " \\   ☁️☁️   /"
+echo "  '--------'"
+}
+
+
+damagochi_inssa(){
+echo "  .------."
+echo " /  😄🎉   \\        이름: $DAMAGOCHI_NAME"
+echo "|  [ ◠  ◠ ] |"
+echo "|   .----.   |"
+echo "|  /  💬   \\ |"
+echo "|  | FRIEND | |"
+echo "|  '------'  |"
+echo " \\  🎉🎉🎉  /"
+echo "  '--------'"
+}
+
+
+damagochi_beauty(){
+echo "  .------."
+echo " /  💖💖   \\        이름: $DAMAGOCHI_NAME"
+echo "|  [ ✨  ✨ ] |"
+echo "|   .----.   |"
+echo "|  /  💄   \\ |"
+echo "|  | BEAUTY | |"
+echo "|  '------'  |"
+echo " \\   💖💖   /"
+echo "  '--------'"
+}
+
+
+damagochi_justice(){
+echo "  .------."
+echo " /  ⚖️🛡   \\        이름: $DAMAGOCHI_NAME"
+echo "|  [ >  < ] |"
+echo "|   .----.   |"
+echo "|  /  ✊    \\ |"
+echo "|  | JUST  | |"
+echo "|  '------'  |"
+echo " \\   🛡⚔️   /"
+echo "  '--------'"
+}
+
+damagochi_alone(){
+echo "  .------."
+echo " /  ...    \\        이름: $DAMAGOCHI_NAME"
+echo "|  [ ;  ; ] |"
+echo "|   .----.   |"
+echo "|  /  🕳    \\ |"
+echo "|  | ALONE | |"
+echo "|  '------'  |"
+echo " \\    ..    /"
+echo "  '--------'"
+}
+
+
+damagochi_shy(){
+echo "  .------."
+echo " /  ㅠㅠ    \\        이름: $DAMAGOCHI_NAME"
+echo "|  [ >  < ] |"
+echo "|   .----.   |"
+echo "|  /  💧    \\ |"
+echo "|  | SHY   | |"
+echo "|  '------'  |"
+echo " \\    ..    /"
+echo "  '--------'"
+}
+
+damagochi_evil(){
+echo "  .------."
+echo " /  🔥🔥    \\        이름: $DAMAGOCHI_NAME"
+echo "|  [ -  - ] |"
+echo "|   .----.   |"
+echo "|  /  😈    \\ |"
+echo "|  | EVIL  | |"
+echo "|  '------'  |"
+echo " \\   🔥🔥   /"
+echo "  '--------'"
+}
+
+damagochi_normal(){
+echo "  .------."
+echo " /   ...   \\        이름: $DAMAGOCHI_NAME"
+echo "|  [ o  o ] |"
+echo "|   .----.   |"
+echo "|  /      \\ |"
+echo "|  | NORMAL| |"
+echo "|  '------'  |"
+echo " \\    .     /"
+echo "  '--------'"
+}
+
 clamp_stats() {
     # FEED
     [ "$FEED" -lt 0 ]   && FEED=0
@@ -114,18 +254,6 @@ set_name() {
             echo "---"
         fi
     done
-}
-
-damagochi(){
-    echo "  .------."
-    echo " /        \\         이름: $DAMAGOCHI_NAME"
-    echo "|  [ o  o ] |"
-    echo "|   .----.   |"
-    echo "|  /      \\  |"
-    echo "|  |      |  |"
-    echo "|  '------'  |"
-    echo " \\          /"
-    echo "  '--------'"
 }
 
 draw_title() {
@@ -322,13 +450,93 @@ InGame() {
     done
     
     if [ "$TURN" -gt "$MAX_TURN" ]; then
-        Ending
+        EndingCheck
     fi
 }
 
+get_tier() {
+    local value=$1
+    if [ "$value" -le 35 ]; then
+        echo "LOW"
+    elif [ "$value" -ge 80 ]; then
+        echo "HIGH"
+    else
+        echo "MID"
+    fi
+}
+
+EndingCheck() {
+    SOCIAL_TIER=$(get_tier "$SOCIAL")
+    VISUAL_TIER=$(get_tier "$VISUAL")
+    MORAL_TIER=$(get_tier "$MORAL")
+
+    # SPECIAL ENDINGS
+    if [ "$SOCIAL_TIER" = "HIGH" ] && [ "$VISUAL_TIER" = "HIGH" ] && [ "$MORAL_TIER" = "HIGH" ]; then
+        Ending "트리플 하이 엔딩"; return
+    fi
+
+    if [ "$SOCIAL_TIER" = "HIGH" ] && [ "$VISUAL_TIER" = "HIGH" ]; then
+        Ending "인기 스타 엔딩"; return
+    fi
+
+    if [ "$MORAL_TIER" = "HIGH" ] && [ "$SOCIAL_TIER" != "LOW" ] && [ "$VISUAL_TIER" != "LOW" ]; then
+        Ending "성인군자 엔딩"; return
+    fi
+
+    # HIGH ENDINGS
+    if [ "$SOCIAL_TIER" = "HIGH" ]; then
+        Ending "인싸 그 자체 엔딩"; return
+    fi
+
+    if [ "$VISUAL_TIER" = "HIGH" ]; then
+        Ending "완벽한 외모 엔딩"; return
+    fi
+
+    if [ "$MORAL_TIER" = "HIGH" ]; then
+        Ending "정의의 수호자 엔딩"; return
+    fi
+
+    # LOW ENDINGS
+    if [ "$SOCIAL_TIER" = "LOW" ]; then
+        Ending "외톨이 엔딩"; return
+    fi
+
+    if [ "$VISUAL_TIER" = "LOW" ]; then
+        Ending "외모 콤플렉스 엔딩"; return
+    fi
+
+    if [ "$MORAL_TIER" = "LOW" ]; then
+        Ending "타락 엔딩"; return
+    fi
+
+    # DEFAULT
+    Ending "평범 엔딩"
+}
+
 Ending(){
+    local title="$1"
+
+    clear
     echo "🎉 30일이 경과하여 다마고치 엔딩을 맞이합니다!"
-    # 엔딩 결과에 따라 메세지 출력 로직 추가 예정
+    echo ""
+
+    case "$title" in
+        "트리플 하이 엔딩") damagochi_triple_high ;;
+        "인기 스타 엔딩") damagochi_star ;;
+        "성인군자 엔딩") damagochi_sage ;;
+        "인싸 그 자체 엔딩") damagochi_inssa ;;
+        "완벽한 외모 엔딩") damagochi_beauty ;;
+        "정의의 수호자 엔딩") damagochi_justice ;;
+        "외톨이 엔딩") damagochi_alone ;;
+        "외모 콤플렉스 엔딩") damagochi_shy ;;
+        "타락 엔딩") damagochi_evil ;;
+        "평범 엔딩") damagochi_normal ;;
+        *) damagochi ;;   # 혹시나 버그 방지용
+    esac
+
+    echo ""
+    echo "📘 엔딩: $title"
+    echo ""
     echo "아무 키나 눌러 초기화면으로 돌아가세요..."
     read -n1 -s
     GAME_STATE="INIT"

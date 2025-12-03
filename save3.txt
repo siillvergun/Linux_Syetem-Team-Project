@@ -1,9 +1,0 @@
-
-    DAMAGOCHI_NAME=d
-    TURN=2
-    MAX_TURN=30
-    FEED=60
-    HAPPY=100
-    SOCIAL=65 
-    VISUAL=50 
-    MORAL=55
