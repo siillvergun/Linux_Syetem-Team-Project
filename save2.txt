@@ -1,6 +1,6 @@
 
-    DAMAGOCHI_NAME=asd
-    TURN=7
+    DAMAGOCHI_NAME=d
+    TURN=1
     MAX_TURN=30
     FEED=70
     HAPPY=100
