@@ -9,6 +9,6 @@
     END8=0
     END9=0
     END10=0
-    ACH1=0
+    ACH1=1
     ACH2=0
     ACH3=1
