@@ -270,7 +270,9 @@ draw_Next_Turn(){
     # DICE_RES가 1 또는 2일 때만 돌발 이벤트 멘트 출력
     if [ "$DICE_RES" -eq 1 ] || [ "$DICE_RES" -eq 2 ]; then
         Random_Event2_Script
+        echo
         echo "$EVENT_SCRIPT2"
+        echo
         echo "────────────────────────────────────────────"
         echo "아무 키나 눌러 게임을 계속합니다..."
         read -n1 -s
@@ -286,7 +288,6 @@ Random_Event2(){
         echo "** !!돌발 이벤트 발생!! **"
         echo "** !!돌발 이벤트 발생!! **"
         echo "** !!돌발 이벤트 발생!! **"
-        echo 
         ;;
     *)
         ;;
@@ -296,8 +297,12 @@ Random_Event2(){
 
 
 InGame() {
-    while [ "$TURN" -le "$MAX_TURN" ]; do 
-        draw_Next_Turn
+    while [ "$TURN" -le "$MAX_TURN" ]; do
+
+        if [ "$TURN" -ge 2 ]; then
+            draw_Next_Turn
+        fi
+        
         clear_screen
         draw_Game
         Control_Behave
