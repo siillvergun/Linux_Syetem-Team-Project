@@ -22,6 +22,10 @@ END3=0
 END4=0
 END5=0
 END6=0
+END7=0
+END8=0
+END9=0
+END10=0
 
 #업적 해금 확인용 BOOL 변수
 ACH1=0
@@ -33,7 +37,7 @@ damagochi(){
     echo "  .------."
     echo " /        \\         이름: $DAMAGOCHI_NAME"
     echo "|  [ o  o ] |"
-    echo "|   .----.   |"
+    echo "|   .----.   |"       
     echo "|  /      \\  |"
     echo "|  |      |  |"
     echo "|  '------'  |"
@@ -45,7 +49,7 @@ damagochi_triple_high(){
 echo "  .------."
 echo " /  ☆★☆  \\        이름: $DAMAGOCHI_NAME"
 echo "|  [ ^  ^ ] |"
-echo "|   .✨✨.   |"
+echo "|   .✨✨.   |"      "$DAMAGOCHI_NAME"는 누구보다 멋진 인물로 성장했습니다!
 echo "|  /      \\ |"
 echo "|  | KING | |"
 echo "|  '------'  |"
@@ -58,8 +62,8 @@ damagochi_star(){
 echo "  .------."
 echo " /  ✦✦✦  \\        이름: $DAMAGOCHI_NAME"
 echo "|  [ ★  ★ ] |"
-echo "|   .----.   |"
-echo "|  /  😎   \\ |"
+echo "|   .----.   |"      "$DAMAGOCHI_NAME"는 최고의 인기를 구가 연예인으로 성장했습니다!
+echo "|  /  😎   \\ |"      
 echo "|  | STAR | |"
 echo "|  '------'  |"
 echo " \\  ✦✦✦   /"
@@ -72,7 +76,7 @@ damagochi_sage(){
 echo "  .------."
 echo " /  禮義智  \\       이름: $DAMAGOCHI_NAME"
 echo "|  [ ^  ^ ] |"
-echo "|   .----.   |"
+echo "|   .----.   |"      "$DAMAGOCHI_NAME"는 예절과 도의를 아는 군자로 성장했습니다!
 echo "|  /  ☘️   \\ |"
 echo "|  | 善良 | |"
 echo "|  '------'  |"
@@ -85,7 +89,7 @@ damagochi_inssa(){
 echo "  .------."
 echo " /  😄🎉   \\        이름: $DAMAGOCHI_NAME"
 echo "|  [ ◠  ◠ ] |"
-echo "|   .----.   |"
+echo "|   .----.   |"       "$DAMAGOCHI_NAME"는 모두와 친구인 인싸로 성장했습니다!
 echo "|  /  💬   \\ |"
 echo "|  | FRIEND | |"
 echo "|  '------'  |"
@@ -98,7 +102,7 @@ damagochi_beauty(){
 echo "  .------."
 echo " /  💖💖   \\        이름: $DAMAGOCHI_NAME"
 echo "|  [ ✨  ✨ ] |"
-echo "|   .----.   |"
+echo "|   .----.   |"       "$DAMAGOCHI_NAME"는 경국지색의 미모를 가진 미인으로 성장했습니다!
 echo "|  /  💄   \\ |"
 echo "|  | BEAUTY | |"
 echo "|  '------'  |"
@@ -111,7 +115,7 @@ damagochi_justice(){
 echo "  .------."
 echo " /  ⚖️🛡   \\        이름: $DAMAGOCHI_NAME"
 echo "|  [ >  < ] |"
-echo "|   .----.   |"
+echo "|   .----.   |"       "$DAMAGOCHI_NAME"는 정의를 수호하는 준법시민으로 성장했습니다!
 echo "|  /  ✊    \\ |"
 echo "|  | JUST  | |"
 echo "|  '------'  |"
@@ -123,7 +127,7 @@ damagochi_alone(){
 echo "  .------."
 echo " /  ...    \\        이름: $DAMAGOCHI_NAME"
 echo "|  [ ;  ; ] |"
-echo "|   .----.   |"
+echo "|   .----.   |"       "$DAMAGOCHI_NAME"는 친구 하나 없는 아싸로 성장했습니다!
 echo "|  /  🕳    \\ |"
 echo "|  | ALONE | |"
 echo "|  '------'  |"
@@ -136,7 +140,7 @@ damagochi_shy(){
 echo "  .------."
 echo " /  ㅠㅠ    \\        이름: $DAMAGOCHI_NAME"
 echo "|  [ >  < ] |"
-echo "|   .----.   |"
+echo "|   .----.   |"       "$DAMAGOCHI_NAME"는 천하 제일 추남으로 성장했습니다!
 echo "|  /  💧    \\ |"
 echo "|  | SHY   | |"
 echo "|  '------'  |"
@@ -148,7 +152,7 @@ damagochi_evil(){
 echo "  .------."
 echo " /  🔥🔥    \\        이름: $DAMAGOCHI_NAME"
 echo "|  [ -  - ] |"
-echo "|   .----.   |"
+echo "|   .----.   |"       "$DAMAGOCHI_NAME"는 천하의 못된놈으로 성장했습니다!
 echo "|  /  😈    \\ |"
 echo "|  | EVIL  | |"
 echo "|  '------'  |"
@@ -160,7 +164,7 @@ damagochi_normal(){
 echo "  .------."
 echo " /   ...   \\        이름: $DAMAGOCHI_NAME"
 echo "|  [ o  o ] |"
-echo "|   .----.   |"
+echo "|   .----.   |"       "$DAMAGOCHI_NAME"는 정말로 남들만큼만 자랐습니다!
 echo "|  /      \\ |"
 echo "|  | NORMAL| |"
 echo "|  '------'  |"
@@ -359,6 +363,10 @@ Load_UserData () {
     END4=0
     END5=0
     END6=0
+    END7=0
+    END8=0
+    END9=0
+    END10=0
 
     ACH1=0
     ACH2=0
@@ -370,19 +378,60 @@ EOF
     source "user.txt"
 
     # 권한 설정
-    chmod 444 "user.txt"
+    chmod 644 "user.txt"
 }
 
+Save_UserData(){
+    cat > user.txt <<EOF
+
+    END1=$END1
+    END2=$END2
+    END3=$END3
+    END4=$END4
+    END5=$END5
+    END6=$END6
+    END7=$END7
+    END8=$END8
+    END9=$END9
+    END10=$END10
+    ACH1=$ACH1
+    ACH2=$ACH2
+    ACH3=$ACH3
+EOF
+}
 
 draw_Gallely(){
     echo "────────────────────────────────────────────"
     echo "                갤러리 화면"
     echo "────────────────────────────────────────────"
-    echo "아직 해금된 엔딩이 없습니다."
-    echo "아무 키나 눌러 메뉴로 돌아가세요..."
-    echo $END2
+  echo " [엔딩 목록]"
+    echo "--------------------------------------------"
+
+    # 각 엔딩 해금 여부 체크
+    if [ "$END1" -eq 1 ]; then echo "1. 트리플 하이 엔딩"; else echo "1. ?????????????"; fi
+    if [ "$END2" -eq 1 ]; then echo "2. 인기 스타 엔딩"; else echo "2. ?????????????"; fi
+    if [ "$END3" -eq 1 ]; then echo "3. 성인군자 엔딩"; else echo "3. ?????????????"; fi
+    if [ "$END4" -eq 1 ]; then echo "4. 인싸 그 자체 엔딩"; else echo "4. ?????????????"; fi
+    if [ "$END5" -eq 1 ]; then echo "5. 완벽한 외모 엔딩"; else echo "5. ?????????????"; fi
+    if [ "$END6" -eq 1 ]; then echo "6. 정의의 수호자 엔딩"; else echo "6. ?????????????"; fi
+    if [ "$END7" -eq 1 ]; then echo "7. 외톨이 엔딩"; else echo "7. ?????????????"; fi
+    if [ "$END8" -eq 1 ]; then echo "8. 외모 콤플렉스 엔딩"; else echo "8. ?????????????"; fi
+    if [ "$END9" -eq 1 ]; then echo "9. 타락 엔딩"; else echo "9. ?????????????"; fi
+    if [ "$END10" -eq 1 ]; then echo "10. 평범 엔딩"; else echo "10. ?????????????"; fi
+
+    echo ""
+    echo " [업적 목록]"
+    echo "--------------------------------------------"
+
+    if [ "$ACH1" -eq 1 ]; then echo "1. 마당발"; else echo "1. ?????????????"; fi
+    if [ "$ACH2" -eq 1 ]; then echo "2. 혹시 카리나?!"; else echo "2. ?????????????"; fi
+    if [ "$ACH3" -eq 1 ]; then echo "3. 군자재림"; else echo "3. ?????????????"; fi
+
+    echo ""
+    echo "아무 키나 눌러 메뉴로 돌아갑니다..."
     read -n1 -s
     GAME_STATE="INIT"
+    clear_screen
 }
 
 draw_Next_Turn(){
@@ -437,6 +486,7 @@ InGame() {
         fi
         
         clear_screen
+        AchievementCheck
         draw_Game
         Control_Behave
 
@@ -472,45 +522,104 @@ EndingCheck() {
 
     # SPECIAL ENDINGS
     if [ "$SOCIAL_TIER" = "HIGH" ] && [ "$VISUAL_TIER" = "HIGH" ] && [ "$MORAL_TIER" = "HIGH" ]; then
+        unlock_ending "트리플 하이 엔딩"
+        Save_UserData
         Ending "트리플 하이 엔딩"; return
     fi
 
     if [ "$SOCIAL_TIER" = "HIGH" ] && [ "$VISUAL_TIER" = "HIGH" ]; then
+        unlock_ending "인기 스타 엔딩"
+        Save_UserData
         Ending "인기 스타 엔딩"; return
     fi
 
     if [ "$MORAL_TIER" = "HIGH" ] && [ "$SOCIAL_TIER" != "LOW" ] && [ "$VISUAL_TIER" != "LOW" ]; then
+        unlock_ending "성인군자 엔딩"
+        Save_UserData
         Ending "성인군자 엔딩"; return
     fi
 
     # HIGH ENDINGS
     if [ "$SOCIAL_TIER" = "HIGH" ]; then
+        unlock_ending "인싸 그 자체 엔딩"
+        Save_UserData
         Ending "인싸 그 자체 엔딩"; return
     fi
 
     if [ "$VISUAL_TIER" = "HIGH" ]; then
+        unlock_ending "완벽한 외모 엔딩"
+        Save_UserData
         Ending "완벽한 외모 엔딩"; return
     fi
 
     if [ "$MORAL_TIER" = "HIGH" ]; then
+        unlock_ending "정의의 수호자 엔딩"
+        Save_UserData
         Ending "정의의 수호자 엔딩"; return
     fi
 
     # LOW ENDINGS
     if [ "$SOCIAL_TIER" = "LOW" ]; then
+        unlock_ending "외톨이 엔딩"
+        Save_UserData
         Ending "외톨이 엔딩"; return
     fi
 
     if [ "$VISUAL_TIER" = "LOW" ]; then
+        unlock_ending "외모 콤플렉스 엔딩"
+        Save_UserData
         Ending "외모 콤플렉스 엔딩"; return
     fi
 
     if [ "$MORAL_TIER" = "LOW" ]; then
+        unlock_ending "타락 엔딩"
+        Save_UserData
         Ending "타락 엔딩"; return
     fi
 
     # DEFAULT
+    unlock_ending "평범 엔딩"
+    Save_UserData
     Ending "평범 엔딩"
+}
+
+unlock_ending(){
+    case "$1" in
+        "트리플 하이 엔딩") END1=1 ;;
+        "인기 스타 엔딩") END2=1 ;;
+        "성인군자 엔딩") END3=1 ;;
+        "인싸 그 자체 엔딩") END4=1 ;;
+        "완벽한 외모 엔딩") END5=1 ;;
+        "정의의 수호자 엔딩") END6=1 ;;
+        "외톨이 엔딩") END7=1 ;;
+        "외모 콤플렉스 엔딩") END8=1 ;;
+        "타락 엔딩") END9=1 ;;
+        "평범 엔딩") END10=1 ;;
+    esac
+}
+
+AchievementCheck(){
+
+    # 사회성 100 → 업적 1
+    if [ "$SOCIAL" -ge 100 ] && [ "$ACH1" -eq 0 ]; then
+        ACH1=1
+        echo "🎖 업적 해금: 사회성 마스터!"
+    fi
+
+    # 외모 100 → 업적 2
+    if [ "$VISUAL" -ge 100 ] && [ "$ACH2" -eq 0 ]; then
+        ACH2=1
+        echo "🎖 업적 해금: 외모 마스터!"
+    fi
+
+    # 도덕성 100 → 업적 3
+    if [ "$MORAL" -ge 100 ] && [ "$ACH3" -eq 0 ]; then
+        ACH3=1
+        echo "🎖 업적 해금: 도덕성 마스터!"
+    fi
+
+    # 업적 해금이 발생한 경우 저장
+    Save_UserData
 }
 
 Ending(){
@@ -540,6 +649,7 @@ Ending(){
     echo "아무 키나 눌러 초기화면으로 돌아가세요..."
     read -n1 -s
     GAME_STATE="INIT"
+    clear_screen
 }
 
 EVENT_SCRIPT=""
@@ -913,6 +1023,7 @@ Control_Behave(){
                 ;;
         esac
     done
+
 }
 
 draw_SaveGame()
@@ -1130,7 +1241,7 @@ main() {
     Load_UserData
 
     while [ "$GAME_STATE" != "EXIT" ]; do
-    
+       
         # 현재 게임 상태에 따라 적절한 함수를 호출
         case "$GAME_STATE" in
             "INIT")
