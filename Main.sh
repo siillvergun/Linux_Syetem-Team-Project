@@ -1,5 +1,16 @@
 #!/usr/bin/env bash
 
+RESET="\033[0m"
+BOLD="\033[1m"
+CYAN="\033[36m"
+YELLOW="\033[33m"
+
+RED="\033[31m"
+GREEN="\033[32m"
+BLUE="\033[34m"
+MAGENTA="\033[35m"
+GRAY="\033[90m"
+
 DAMAGOCHI_NAME=""
 TURN=1 # 현재 턴
 MAX_TURN=30 # 최대 턴
@@ -46,130 +57,130 @@ damagochi(){
 }
 
 damagochi_triple_high(){
-echo "  .------."
-echo " /  ☆★☆  \\        이름: $DAMAGOCHI_NAME"
-echo "|  [ ^  ^ ] |"
-echo "|   .✨✨.   |"      "$DAMAGOCHI_NAME"는 누구보다 멋진 인물로 성장했습니다!
-echo "|  /      \\ |"
-echo "|  | KING | |"
-echo "|  '------'  |"
-echo " \\   ★★★   /"
-echo "  '--------'"
+    echo "  .------."
+    echo " /  ☆★☆  \\        이름: $DAMAGOCHI_NAME"
+    echo "|  [ ^  ^ ] |"
+    echo "|   .✨✨.   |"      "$DAMAGOCHI_NAME"는 누구보다 멋진 인물로 성장했습니다!
+    echo "|  /      \\ |"
+    echo "|  | KING | |"
+    echo "|  '------'  |"
+    echo " \\   ★★★   /"
+    echo "  '--------'"
 }
 
 
 damagochi_star(){
-echo "  .------."
-echo " /  ✦✦✦  \\        이름: $DAMAGOCHI_NAME"
-echo "|  [ ★  ★ ] |"
-echo "|   .----.   |"      "$DAMAGOCHI_NAME"는 최고의 인기를 구가 연예인으로 성장했습니다!
-echo "|  /  😎   \\ |"      
-echo "|  | STAR | |"
-echo "|  '------'  |"
-echo " \\  ✦✦✦   /"
-echo "  '--------'"
+    echo "  .------."
+    echo " /  ✦✦✦  \\        이름: $DAMAGOCHI_NAME"
+    echo "|  [ ★  ★ ] |"
+    echo "|   .----.   |"      "$DAMAGOCHI_NAME"는 최고의 인기를 구가 연예인으로 성장했습니다!
+    echo "|  /  😎   \\ |"      
+    echo "|  | STAR | |"
+    echo "|  '------'  |"
+    echo " \\  ✦✦✦   /"
+    echo "  '--------'"
 }
 
 
 
 damagochi_sage(){
-echo "  .------."
-echo " /  禮義智  \\       이름: $DAMAGOCHI_NAME"
-echo "|  [ ^  ^ ] |"
-echo "|   .----.   |"      "$DAMAGOCHI_NAME"는 예절과 도의를 아는 군자로 성장했습니다!
-echo "|  /  ☘️   \\ |"
-echo "|  | 善良 | |"
-echo "|  '------'  |"
-echo " \\   ☁️☁️   /"
-echo "  '--------'"
+    echo "  .------."
+    echo " /  禮義智  \\       이름: $DAMAGOCHI_NAME"
+    echo "|  [ ^  ^ ] |"
+    echo "|   .----.   |"      "$DAMAGOCHI_NAME"는 예절과 도의를 아는 군자로 성장했습니다!
+    echo "|  /  ☘️   \\ |"
+    echo "|  | 善良 | |"
+    echo "|  '------'  |"
+    echo " \\   ☁️☁️   /"
+    echo "  '--------'"
 }
 
 
 damagochi_inssa(){
-echo "  .------."
-echo " /  😄🎉   \\        이름: $DAMAGOCHI_NAME"
-echo "|  [ ◠  ◠ ] |"
-echo "|   .----.   |"       "$DAMAGOCHI_NAME"는 모두와 친구인 인싸로 성장했습니다!
-echo "|  /  💬   \\ |"
-echo "|  | FRIEND | |"
-echo "|  '------'  |"
-echo " \\  🎉🎉🎉  /"
-echo "  '--------'"
+    echo "  .------."
+    echo " /  😄🎉   \\        이름: $DAMAGOCHI_NAME"
+    echo "|  [ ◠  ◠ ] |"
+    echo "|   .----.   |"       "$DAMAGOCHI_NAME"는 모두와 친구인 인싸로 성장했습니다!
+    echo "|  /  💬   \\ |"
+    echo "|  | FRIEND | |"
+    echo "|  '------'  |"
+    echo " \\  🎉🎉🎉  /"
+    echo "  '--------'"
 }
 
 
 damagochi_beauty(){
-echo "  .------."
-echo " /  💖💖   \\        이름: $DAMAGOCHI_NAME"
-echo "|  [ ✨  ✨ ] |"
-echo "|   .----.   |"       "$DAMAGOCHI_NAME"는 경국지색의 미모를 가진 미인으로 성장했습니다!
-echo "|  /  💄   \\ |"
-echo "|  | BEAUTY | |"
-echo "|  '------'  |"
-echo " \\   💖💖   /"
-echo "  '--------'"
+    echo "  .------."
+    echo " /  💖💖   \\        이름: $DAMAGOCHI_NAME"
+    echo "|  [ ✨  ✨ ] |"
+    echo "|   .----.   |"       "$DAMAGOCHI_NAME"는 경국지색의 미모를 가진 미인으로 성장했습니다!
+    echo "|  /  💄   \\ |"
+    echo "|  | BEAUTY | |"
+    echo "|  '------'  |"
+    echo " \\   💖💖   /"
+    echo "  '--------'"
 }
 
 
 damagochi_justice(){
-echo "  .------."
-echo " /  ⚖️🛡   \\        이름: $DAMAGOCHI_NAME"
-echo "|  [ >  < ] |"
-echo "|   .----.   |"       "$DAMAGOCHI_NAME"는 정의를 수호하는 준법시민으로 성장했습니다!
-echo "|  /  ✊    \\ |"
-echo "|  | JUST  | |"
-echo "|  '------'  |"
-echo " \\   🛡⚔️   /"
-echo "  '--------'"
+    echo "  .------."
+    echo " /  ⚖️🛡   \\        이름: $DAMAGOCHI_NAME"
+    echo "|  [ >  < ] |"
+    echo "|   .----.   |"       "$DAMAGOCHI_NAME"는 정의를 수호하는 준법시민으로 성장했습니다!
+    echo "|  /  ✊    \\ |"
+    echo "|  | JUST  | |"
+    echo "|  '------'  |"
+    echo " \\   🛡⚔️   /"
+    echo "  '--------'"
 }
 
 damagochi_alone(){
-echo "  .------."
-echo " /  ...    \\        이름: $DAMAGOCHI_NAME"
-echo "|  [ ;  ; ] |"
-echo "|   .----.   |"       "$DAMAGOCHI_NAME"는 친구 하나 없는 아싸로 성장했습니다!
-echo "|  /  🕳    \\ |"
-echo "|  | ALONE | |"
-echo "|  '------'  |"
-echo " \\    ..    /"
-echo "  '--------'"
+    echo "  .------."
+    echo " /  ...    \\        이름: $DAMAGOCHI_NAME"
+    echo "|  [ ;  ; ] |"
+    echo "|   .----.   |"       "$DAMAGOCHI_NAME"는 친구 하나 없는 아싸로 성장했습니다!
+    echo "|  /  🕳    \\ |"
+    echo "|  | ALONE | |"
+    echo "|  '------'  |"
+    echo " \\    ..    /"
+    echo "  '--------'"
 }
 
 
 damagochi_shy(){
-echo "  .------."
-echo " /  ㅠㅠ    \\        이름: $DAMAGOCHI_NAME"
-echo "|  [ >  < ] |"
-echo "|   .----.   |"       "$DAMAGOCHI_NAME"는 천하 제일 추남으로 성장했습니다!
-echo "|  /  💧    \\ |"
-echo "|  | SHY   | |"
-echo "|  '------'  |"
-echo " \\    ..    /"
-echo "  '--------'"
+    echo "  .------."
+    echo " /  ㅠㅠ    \\        이름: $DAMAGOCHI_NAME"
+    echo "|  [ >  < ] |"
+    echo "|   .----.   |"       "$DAMAGOCHI_NAME"는 천하 제일 추남으로 성장했습니다!
+    echo "|  /  💧    \\ |"
+    echo "|  | SHY   | |"
+    echo "|  '------'  |"
+    echo " \\    ..    /"
+    echo "  '--------'"
 }
 
 damagochi_evil(){
-echo "  .------."
-echo " /  🔥🔥    \\        이름: $DAMAGOCHI_NAME"
-echo "|  [ -  - ] |"
-echo "|   .----.   |"       "$DAMAGOCHI_NAME"는 천하의 못된놈으로 성장했습니다!
-echo "|  /  😈    \\ |"
-echo "|  | EVIL  | |"
-echo "|  '------'  |"
-echo " \\   🔥🔥   /"
-echo "  '--------'"
+    echo "  .------."
+    echo " /  🔥🔥    \\        이름: $DAMAGOCHI_NAME"
+    echo "|  [ -  - ] |"
+    echo "|   .----.   |"       "$DAMAGOCHI_NAME"는 천하의 못된놈으로 성장했습니다!
+    echo "|  /  😈    \\ |"
+    echo "|  | EVIL  | |"
+    echo "|  '------'  |"
+    echo " \\   🔥🔥   /"
+    echo "  '--------'"
 }
 
 damagochi_normal(){
-echo "  .------."
-echo " /   ...   \\        이름: $DAMAGOCHI_NAME"
-echo "|  [ o  o ] |"
-echo "|   .----.   |"       "$DAMAGOCHI_NAME"는 정말로 남들만큼만 자랐습니다!
-echo "|  /      \\ |"
-echo "|  | NORMAL| |"
-echo "|  '------'  |"
-echo " \\    .     /"
-echo "  '--------'"
+    echo "  .------."
+    echo " /   ...   \\        이름: $DAMAGOCHI_NAME"
+    echo "|  [ o  o ] |"
+    echo "|   .----.   |"       "$DAMAGOCHI_NAME"는 정말로 남들만큼만 자랐습니다!
+    echo "|  /      \\ |"
+    echo "|  | NORMAL| |"
+    echo "|  '------'  |"
+    echo " \\    .     /"
+    echo "  '--------'"
 }
 
 clamp_stats() {
@@ -213,18 +224,6 @@ Dice_Roll() {
     DICE_RES=$(( RANDOM % 6 + 1))
 }
 EVENT_RES=""
-
-RESET="\033[0m"
-BOLD="\033[1m"
-CYAN="\033[36m"
-YELLOW="\033[33m"
-
-RED="\033[31m"
-GREEN="\033[32m"
-BLUE="\033[34m"
-MAGENTA="\033[35m"
-GRAY="\033[90m"
-
 
 clear_screen() {
     clear 2>/dev/null || printf "\033c"
@@ -284,7 +283,6 @@ draw_initial_menu() {
     echo "갤러리(3)"
     echo "종료하기(4)"
 }
-
 
 
 draw_Game(){
@@ -482,6 +480,51 @@ Random_Event2(){
     echo "────────────────────────────────────────────"
 }
 
+check_death_ending() {
+    # 행복 0 이하 → 행복 엔딩
+    if [ "$HAPPY" -le 0 ]; then
+        clear_screen
+        echo "────────────────────────────────────────────"
+        echo "                   죽음..."
+        echo "────────────────────────────────────────────"
+        echo
+        echo "   더 이상 웃을 힘조차 남지 않았다."
+        echo "   작은 기쁨조차 사라진 하루들이 이어지다 결국"
+        echo "   $DAMAGOCHI_NAME의 마음은 완전히 무너져 버렸다."
+        echo
+        echo "   행복이 0이 되어 삶의 의지를 잃고 말았다..."
+        echo
+        echo "────────────────────────────────────────────"
+        echo "아무 키나 눌러 초기 화면으로 돌아갑니다."
+        read -n1 -s
+
+        GAME_STATE="INIT"
+        return
+    fi
+
+    # 포만감 0 이하 → 굶주림 엔딩
+    if [ "$FEED" -le 0 ]; then
+        clear_screen
+        echo "────────────────────────────────────────────"
+        echo "                   죽음..."
+        echo "────────────────────────────────────────────"
+        echo
+        echo "   배고픔이 일상이 되고, 허기만이 친구가 되었다."
+        echo "   결국 $DAMAGOCHI_NAME는 아무것도 먹지 못한 채"
+        echo "   힘을 잃고 조용히 쓰러지고 말았다."
+        echo
+        echo "   포만감이 0이 되어 생명을 잃고 말았다..."
+        echo
+        echo "────────────────────────────────────────────"
+        echo "아무 키나 눌러 초기 화면으로 돌아갑니다."
+        read -n1 -s
+
+        GAME_STATE="INIT"
+        return
+    fi
+}
+
+
 
 InGame() {
     while [ "$TURN" -le "$MAX_TURN" ]; do
@@ -499,6 +542,7 @@ InGame() {
 
         clamp_stats
         
+        check_death_ending
         if [ "$GAME_STATE" = "INIT" ]; then
             break
         fi
@@ -961,9 +1005,6 @@ Random_Event2_Script(){
             ;;
     esac
 }
-
-
-
 
 Random_Event(){
     echo "🎲 주사위를 굴리는 중..."
