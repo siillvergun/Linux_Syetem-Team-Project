@@ -201,7 +201,7 @@ Clear_Vari()
     MAX_TURN=30 # 최대 턴
 
     FEED=70 # 포만감
-    HAPPY=100 # 행복
+    HAPPY=70 # 행복
 
     SOCIAL=50 #사회성
     VISUAL=50 #외모
@@ -218,6 +218,13 @@ RESET="\033[0m"
 BOLD="\033[1m"
 CYAN="\033[36m"
 YELLOW="\033[33m"
+
+RED="\033[31m"
+GREEN="\033[32m"
+BLUE="\033[34m"
+MAGENTA="\033[35m"
+GRAY="\033[90m"
+
 
 clear_screen() {
     clear 2>/dev/null || printf "\033c"
@@ -288,7 +295,7 @@ draw_Game(){
     if [ "$TURN" -gt 1 ]; then
         # 이전 턴( TURN-1 ) 결과 출력
         local prev_turn=$((TURN - 1))
-        echo "[${prev_turn}일차 결과]: $EVENT_RES"
+        echo -e "[${prev_turn}일차 결과]: $EVENT_RES"
         echo "$EVENT_SCRIPT"
     fi
     echo "────────────────────────────────────────────"
@@ -889,41 +896,72 @@ EVENT_SCRIPT2=""
 Random_Event2_Script(){
     local r=$(( RANDOM % 10 ))
     case $r in
-        # 0~4 : 나쁜 이벤트
+        # 0~4 : 나쁜 이벤트 (각각 -20)
         0)
-            EVENT_SCRIPT2="갑자기 의욕이 바닥을 쳤다... 오늘은 아무것도 하기 싫다."
+            # 행복 감소
+            EVENT_SCRIPT2="하루 종일 불행만 몰려와서, 나는 웃음은커녕 한숨조차 사치처럼 느껴졌다."
+            HAPPY=$((HAPPY - 20))
+            echo "행복 -20"
             ;;
         1)
-            EVENT_SCRIPT2="밤새 잠을 설쳐서 피곤이 몰려온다. 집중이 잘 되지 않는다."
+            # 포만감 감소
+            EVENT_SCRIPT2="아무것도 먹지 못해 속이 허전하다 못해 비참해졌고, 움직이는 것조차 고통스럽게 느껴졌다."
+            FEED=$((FEED - 20))
+            echo "포만감 -20"
             ;;
         2)
-            EVENT_SCRIPT2="교통사고를 당했다... 몸이 너무 아프다."
+            # 외모(자기 이미지) 악화
+            EVENT_SCRIPT2="거울 속 내 얼굴은 초췌하고 지저분해 보여서, 나조차 나를 외면하고 싶어졌다."
+            VISUAL=$((VISUAL - 20))
+            echo "외모 -20"
             ;;
         3)
-            EVENT_SCRIPT2="밖에서 시끄러운 소리가 계속 들려서 마음이 불편해졌다."
+            # 사회성 악화
+            EVENT_SCRIPT2="대화가 결국 싸움으로 번져 버려, 사람들은 나를 불편해하며 하나둘씩 거리를 두기 시작했다."
+            SOCIAL=$((SOCIAL - 20))
+            echo "사회성 -20"
             ;;
         4)
-            EVENT_SCRIPT2="$DAMAGOCHI_NAME가 멍하니 창밖만 바라본다. 공허한 하루가 될지도 모른다."
+            # 도덕성 악화
+            EVENT_SCRIPT2="타인을 이용하는 선택을 하고 나서, 순간의 짜릿함 대신 지독한 죄책감이 내 속을 파먹기 시작했다."
+            MORAL=$((MORAL - 20))
+            echo "도덕성 -20"
             ;;
 
-        # 5~9 : 좋은 이벤트
+        # 5~9 : 좋은 이벤트 (각각 +20)
         5)
-            EVENT_SCRIPT2="갑자기 공부 욕구가 불타올랐다! 오늘은 뭔가 해낼 수 있을 것 같다."
+            # 포만감 증가
+            EVENT_SCRIPT2="끝내주는 한 끼로 배를 채우고 나니, 배가 든든해져서 온몸에 힘이 다시 샘솟는 기분이 들었다."
+            FEED=$((FEED + 20))
+            echo "포만감 +20"
             ;;
         6)
-            EVENT_SCRIPT2="오늘 컨디션이 너무 좋다! 운동을 해볼까?"
+            # 행복 증가
+            EVENT_SCRIPT2="오늘은 모든 일이 술술 풀려서, 세상이 마치 나를 위해 돌아가는 것 같은 기분이 들었다."
+            HAPPY=$((HAPPY + 20))
+            echo "행복 +20"            
             ;;
         7)
-            EVENT_SCRIPT2="우연히 들은 노래가 너무 좋아서 하루 종일 기분이 상쾌해졌다."
+            # 사회성 증가
+            EVENT_SCRIPT2="사람들과 자연스럽게 섞여 웃고 떠들다 보니, 나는 생각보다 꽤 괜찮은 사람이라는 자신감이 생겼다."
+            SOCIAL=$((SOCIAL + 20))
+            echo "사회성 +20"  
             ;;
         8)
-            EVENT_SCRIPT2="작은 성취를 떠올리며 미소를 지었다. 오늘은 더 잘해보고 싶은 마음이 든다."
+            # 도덕성 증가
+            EVENT_SCRIPT2="조금 돌아가더라도 옳은 선택을 하고 나니, 나는 스스로에게 떳떳해졌고 마음이 훨씬 가벼워졌다."
+            MORAL=$((MORAL + 20))
+            echo "도덕성 +20"  
             ;;
         9)
-            EVENT_SCRIPT2="$DAMAGOCHI_NAME가 스스로 다짐한다. '오늘은 어제보다 조금 더 나아지자.'"
+            # 외모(자기 이미지) 향상
+            EVENT_SCRIPT2="오늘따라 거울 속 내 모습이 유난히 마음에 들어서, 나는 어깨를 좀 더 펴고 자신 있게 걸었다."
+            VISUAL=$((VISUAL + 20))
+            echo "외모 +20"  
             ;;
     esac
 }
+
 
 
 
@@ -931,27 +969,27 @@ Random_Event(){
     echo "🎲 주사위를 굴리는 중..."
     Dice_Roll
     echo "..."
-    sleep 0.9
+    sleep 0.5
     echo "..."
-    sleep 0.9
+    sleep 0.5
     echo "..."
-    sleep 0.9
+    sleep 0.5
     
     case "$DICE_RES" in
         1)
-            EVENT_RES="--- 대실패!! ---"
+            EVENT_RES="${RED}${BOLD}--- 대실패!! ---${RESET}"
             ;;
         2|3)
-            EVENT_RES="--- 실 패! ---"
+            EVENT_RES="${YELLOW}${BOLD}--- 실 패! ---${RESET}"
             ;;
         4)
-            EVENT_RES="--- 아무일도 일어나지 않았습니다... ---"
+            EVENT_RES="${GRAY}--- 아무 일도 일어나지 않았습니다... ---${RESET}"
             ;;
         5)
-            EVENT_RES="--- 성 공! ---"
+            EVENT_RES="${GREEN}${BOLD}--- 성 공! ---${RESET}"
             ;;
         6)
-            EVENT_RES="--- 대성공!! ---"
+            EVENT_RES="${CYAN}${BOLD}--- 대성공!! ---${RESET}"
             ;;
         *)
             echo "주사위 결과 오류"
@@ -959,6 +997,7 @@ Random_Event(){
     esac
     echo "────────────────────────────────────────────"
 }
+
 
 feed(){
     echo "밥 먹자~"
@@ -1246,6 +1285,7 @@ main() {
         case "$GAME_STATE" in
             "INIT")
                 # 요청: 맨 처음 게임을 실행하면 draw_initial_menu를 호출
+                clear_screen
                 draw_initial_menu
                 wait_for_menu
                 ;;
