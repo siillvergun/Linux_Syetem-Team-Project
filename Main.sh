@@ -257,8 +257,10 @@ draw_Gallely(){
 draw_Next_Turn(){
     clear_screen
     echo "────────────────────────────────────────────"
+    echo
     echo "  다음 날이 밝았습니다."
     echo "  아무 키나 눌러 오늘의 상황을 확인하세요."
+    echo
     echo "────────────────────────────────────────────"
     read -n1 -s   # 키 입력 대기
 
@@ -275,13 +277,32 @@ draw_Next_Turn(){
     fi
 }
 
+Random_Event2(){
+    Dice_Roll
+    case "$DICE_RES" in
+    1|2)
+        clear_screen
+        echo
+        echo "** !!돌발 이벤트 발생!! **"
+        echo "** !!돌발 이벤트 발생!! **"
+        echo "** !!돌발 이벤트 발생!! **"
+        echo 
+        ;;
+    *)
+        ;;
+    esac
+    echo "────────────────────────────────────────────"
+}
+
 
 InGame() {
-    while [ "$TURN" -le "$MAX_TURN" ]; do
+    while [ "$TURN" -le "$MAX_TURN" ]; do 
         draw_Next_Turn
         clear_screen
         draw_Game
         Control_Behave
+
+        clamp_stats
         
         if [ "$GAME_STATE" = "INIT" ]; then
             break
@@ -536,33 +557,46 @@ Random_Event_Script_Exercise(){
     esac
 }
 
-Random_Event2(){
-    Dice_Roll
-    case "$DICE_RES" in
-    1|2)
-        echo "돌발 이벤트 발생!!";;
-    *)
-        ;;
-    esac
-    echo "────────────────────────────────────────────"
-}
-
 EVENT_SCRIPT2=""
 Random_Event2_Script(){
     local r=$(( RANDOM % 10 ))
     case $r in
-    0) EVENT_SCRIPT2="갑자기 공부 욕구가 상승했다..!";;
-    1) EVENT_SCRIPT2="갑자기 공부 욕구가 상승했다..!";;
-    2) EVENT_SCRIPT2="갑자기 공부 욕구가 상승했다..!";;
-    3) EVENT_SCRIPT2="갑자기 공부 욕구가 상승했다..!";;
-    4) EVENT_SCRIPT2="갑자기 공부 욕구가 상승했다..!";;
-    5) EVENT_SCRIPT2="갑자기 공부 욕구가 상승했다..!";;
-    6) EVENT_SCRIPT2="갑자기 공부 욕구가 상승했다..!";;
-    7) EVENT_SCRIPT2="갑자기 공부 욕구가 상승했다..!";;
-    8) EVENT_SCRIPT2="갑자기 공부 욕구가 상승했다..!";;
-    9) EVENT_SCRIPT2="갑자기 공부 욕구가 상승했다..!";;
+        # 0~4 : 나쁜 이벤트
+        0)
+            EVENT_SCRIPT2="갑자기 의욕이 바닥을 쳤다... 오늘은 아무것도 하기 싫다."
+            ;;
+        1)
+            EVENT_SCRIPT2="밤새 잠을 설쳐서 피곤이 몰려온다. 집중이 잘 되지 않는다."
+            ;;
+        2)
+            EVENT_SCRIPT2="교통사고를 당했다... 몸이 너무 아프다."
+            ;;
+        3)
+            EVENT_SCRIPT2="밖에서 시끄러운 소리가 계속 들려서 마음이 불편해졌다."
+            ;;
+        4)
+            EVENT_SCRIPT2="$DAMAGOCHI_NAME가 멍하니 창밖만 바라본다. 공허한 하루가 될지도 모른다."
+            ;;
+
+        # 5~9 : 좋은 이벤트
+        5)
+            EVENT_SCRIPT2="갑자기 공부 욕구가 불타올랐다! 오늘은 뭔가 해낼 수 있을 것 같다."
+            ;;
+        6)
+            EVENT_SCRIPT2="오늘 컨디션이 너무 좋다! 운동을 해볼까?"
+            ;;
+        7)
+            EVENT_SCRIPT2="우연히 들은 노래가 너무 좋아서 하루 종일 기분이 상쾌해졌다."
+            ;;
+        8)
+            EVENT_SCRIPT2="작은 성취를 떠올리며 미소를 지었다. 오늘은 더 잘해보고 싶은 마음이 든다."
+            ;;
+        9)
+            EVENT_SCRIPT2="$DAMAGOCHI_NAME가 스스로 다짐한다. '오늘은 어제보다 조금 더 나아지자.'"
+            ;;
     esac
 }
+
 
 
 Random_Event(){
