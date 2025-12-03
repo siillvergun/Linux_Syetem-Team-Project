@@ -13,6 +13,8 @@ MORAL=50 #도덕성
 
 DICE_RES=0 #주사위 결과 저장용 변수
 
+LDA=0 # 로드 상태의 게임인지 확인
+
 #엔딩 해금 확인용 BOOL 변수
 END1=0
 END2=0
@@ -184,7 +186,7 @@ save_game(){
     MORAL=$MORAL
 EOF
 
-    chmod 444 $file
+    chmod 744 $file
     echo "게임이 저장되었습니다!"
 
 }
@@ -199,6 +201,7 @@ load_game(){
         source "$file"
         echo "${slot}번 세이브를 불러왔습니다!"
         GAME_STATE="LDAGAME"
+        LDA=1
     else
         echo "⚠ ${slot}번 세이브는 비어 있습니다! 불러올 수 없습니다."
         GAME_STATE="INIT"
@@ -299,7 +302,9 @@ Random_Event2(){
 InGame() {
     while [ "$TURN" -le "$MAX_TURN" ]; do
 
-        if [ "$TURN" -ge 2 ]; then
+        if [ "$LDA" = 1 ]; then
+            LDA=0
+        elif [ "$TURN" -ge 2 ]; then
             draw_Next_Turn
         fi
         
