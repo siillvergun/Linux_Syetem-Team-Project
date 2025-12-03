@@ -5,7 +5,7 @@ TURN=1 # 현재 턴
 MAX_TURN=30 # 최대 턴
 
 FEED=70 # 포만감
-HAPPY=100 # 행복
+HAPPY=70 # 행복
 
 SOCIAL=50 #사회성
 VISUAL=50 #외모
@@ -25,6 +25,28 @@ END6=0
 ACH1=0
 ACH2=0
 ACH3=0
+
+clamp_stats() {
+    # FEED
+    [ "$FEED" -lt 0 ]   && FEED=0
+    [ "$FEED" -gt 100 ] && FEED=100
+
+    # HAPPY
+    [ "$HAPPY" -lt 0 ]   && HAPPY=0
+    [ "$HAPPY" -gt 100 ] && HAPPY=100
+
+    # SOCIAL
+    [ "$SOCIAL" -lt 0 ]   && SOCIAL=0
+    [ "$SOCIAL" -gt 100 ] && SOCIAL=100
+
+    # VISUAL
+    [ "$VISUAL" -lt 0 ]   && VISUAL=0
+    [ "$VISUAL" -gt 100 ] && VISUAL=100
+
+    # MORAL
+    [ "$MORAL" -lt 0 ]   && MORAL=0
+    [ "$MORAL" -gt 100 ] && MORAL=100
+}
 
 Clear_Vari()
 {
@@ -232,17 +254,60 @@ draw_Gallely(){
     GAME_STATE="INIT"
 }
 
-# draw_Next_Turn(){
+draw_Next_Turn(){
+    clear_screen
+    echo "────────────────────────────────────────────"
+    echo
+    echo "  다음 날이 밝았습니다."
+    echo "  아무 키나 눌러 오늘의 상황을 확인하세요."
+    echo
+    echo "────────────────────────────────────────────"
+    read -n1 -s   # 키 입력 대기
 
-# }
+    # 돌발 이벤트 체크
+    Random_Event2  # 여기서 Dice_Roll + DICE_RES 세팅
+
+    # DICE_RES가 1 또는 2일 때만 돌발 이벤트 멘트 출력
+    if [ "$DICE_RES" -eq 1 ] || [ "$DICE_RES" -eq 2 ]; then
+        Random_Event2_Script
+        echo
+        echo "$EVENT_SCRIPT2"
+        echo
+        echo "────────────────────────────────────────────"
+        echo "아무 키나 눌러 게임을 계속합니다..."
+        read -n1 -s
+    fi
+}
+
+Random_Event2(){
+    Dice_Roll
+    case "$DICE_RES" in
+    1|2)
+        clear_screen
+        echo
+        echo "** !!돌발 이벤트 발생!! **"
+        echo "** !!돌발 이벤트 발생!! **"
+        echo "** !!돌발 이벤트 발생!! **"
+        ;;
+    *)
+        ;;
+    esac
+    echo "────────────────────────────────────────────"
+}
+
 
 InGame() {
-#   draw_Next_Turn
-
     while [ "$TURN" -le "$MAX_TURN" ]; do
+
+        if [ "$TURN" -ge 2 ]; then
+            draw_Next_Turn
+        fi
+        
         clear_screen
         draw_Game
         Control_Behave
+
+        clamp_stats
         
         if [ "$GAME_STATE" = "INIT" ]; then
             break
@@ -497,33 +562,46 @@ Random_Event_Script_Exercise(){
     esac
 }
 
-Random_Event2(){
-    Dice_Roll
-    case "$DICE_RES" in
-    1|2)
-        echo "돌발 이벤트 발생!!";;
-    *)
-        ;;
-    esac
-    echo "────────────────────────────────────────────"
-}
-
 EVENT_SCRIPT2=""
 Random_Event2_Script(){
     local r=$(( RANDOM % 10 ))
     case $r in
-    0) EVENT_SCRIPT2="갑자기 공부 욕구가 상승했다..!";;
-    1) EVENT_SCRIPT2="갑자기 공부 욕구가 상승했다..!";;
-    2) EVENT_SCRIPT2="갑자기 공부 욕구가 상승했다..!";;
-    3) EVENT_SCRIPT2="갑자기 공부 욕구가 상승했다..!";;
-    4) EVENT_SCRIPT2="갑자기 공부 욕구가 상승했다..!";;
-    5) EVENT_SCRIPT2="갑자기 공부 욕구가 상승했다..!";;
-    6) EVENT_SCRIPT2="갑자기 공부 욕구가 상승했다..!";;
-    7) EVENT_SCRIPT2="갑자기 공부 욕구가 상승했다..!";;
-    8) EVENT_SCRIPT2="갑자기 공부 욕구가 상승했다..!";;
-    9) EVENT_SCRIPT2="갑자기 공부 욕구가 상승했다..!";;
+        # 0~4 : 나쁜 이벤트
+        0)
+            EVENT_SCRIPT2="갑자기 의욕이 바닥을 쳤다... 오늘은 아무것도 하기 싫다."
+            ;;
+        1)
+            EVENT_SCRIPT2="밤새 잠을 설쳐서 피곤이 몰려온다. 집중이 잘 되지 않는다."
+            ;;
+        2)
+            EVENT_SCRIPT2="교통사고를 당했다... 몸이 너무 아프다."
+            ;;
+        3)
+            EVENT_SCRIPT2="밖에서 시끄러운 소리가 계속 들려서 마음이 불편해졌다."
+            ;;
+        4)
+            EVENT_SCRIPT2="$DAMAGOCHI_NAME가 멍하니 창밖만 바라본다. 공허한 하루가 될지도 모른다."
+            ;;
+
+        # 5~9 : 좋은 이벤트
+        5)
+            EVENT_SCRIPT2="갑자기 공부 욕구가 불타올랐다! 오늘은 뭔가 해낼 수 있을 것 같다."
+            ;;
+        6)
+            EVENT_SCRIPT2="오늘 컨디션이 너무 좋다! 운동을 해볼까?"
+            ;;
+        7)
+            EVENT_SCRIPT2="우연히 들은 노래가 너무 좋아서 하루 종일 기분이 상쾌해졌다."
+            ;;
+        8)
+            EVENT_SCRIPT2="작은 성취를 떠올리며 미소를 지었다. 오늘은 더 잘해보고 싶은 마음이 든다."
+            ;;
+        9)
+            EVENT_SCRIPT2="$DAMAGOCHI_NAME가 스스로 다짐한다. '오늘은 어제보다 조금 더 나아지자.'"
+            ;;
     esac
 }
+
 
 
 Random_Event(){
