@@ -810,11 +810,11 @@ Random_Event_Script_Read(){
             local r=$(( RANDOM % 3 ))
             case "$r" in
                 0) EVENT_SCRIPT="인생 문장을 발견하고 깊은 감동을 받았다." 
-                FEED=$((FEED - 10)) HAPPY=$((HAPPY + 15)) MORAL=$((MORAL+15));;
+                FEED=$((FEED - 5)) HAPPY=$((HAPPY + 15)) MORAL=$((MORAL+15));;
                 1) EVENT_SCRIPT="책의 내용을 자기 삶에 적용해보겠다고 다짐했다." 
-                FEED=$((FEED - 10)) HAPPY=$((HAPPY + 15)) MORAL=$((MORAL+15));;
+                FEED=$((FEED - 5)) HAPPY=$((HAPPY + 15)) MORAL=$((MORAL+15));;
                 2) EVENT_SCRIPT="독서 후 $DAMAGOCHI_NAME의 눈빛이 한층 똑똑해졌다." 
-                FEED=$((FEED - 10)) HAPPY=$((HAPPY + 15)) MORAL=$((MORAL+15));;
+                FEED=$((FEED - 5)) HAPPY=$((HAPPY + 15)) MORAL=$((MORAL+15));;
             esac
             ;;
     esac
@@ -827,11 +827,11 @@ Random_Event_Script_Play(){
             local r=$(( RANDOM % 3 ))
             case "$r" in
                 0) EVENT_SCRIPT="뛰어놀다가 넘어져서 울음을 터뜨렸다." 
-                FEED=$((FEED - 10)) HAPPY=$((HAPPY - 15)) VISUAL=$((VISUAL-10));;
+                FEED=$((FEED - 5)) HAPPY=$((HAPPY - 15)) VISUAL=$((VISUAL-10));;
                 1) EVENT_SCRIPT="장난감이 부서져버려서 분위기가 싸해졌다." 
-                FEED=$((FEED - 10)) HAPPY=$((HAPPY - 15));;
+                FEED=$((FEED - 5)) HAPPY=$((HAPPY - 15));;
                 2) EVENT_SCRIPT="서로 오해가 생겨서 놀이가 싸움이 되어버렸다." 
-                FEED=$((FEED - 10)) HAPPY=$((HAPPY - 15)) SOCIAL=$((SOCIAL-15));;
+                FEED=$((FEED - 5)) HAPPY=$((HAPPY - 15)) SOCIAL=$((SOCIAL-15));;
             esac
             ;;
         2|3)  # 실패
@@ -868,11 +868,11 @@ Random_Event_Script_Play(){
             local r=$(( RANDOM % 3 ))
             case "$r" in
                 0) EVENT_SCRIPT="웃다가 배가 아플 정도로 즐거운 시간을 보냈다." 
-                FEED=$((FEED - 10)) HAPPY=$((HAPPY + 20)) SOCIAL=$((SOCIAL+15)) MORAL=$((MORAL+5));;
+                FEED=$((FEED - 5)) HAPPY=$((HAPPY + 20)) SOCIAL=$((SOCIAL+15)) MORAL=$((MORAL+5));;
                 1) EVENT_SCRIPT="$DAMAGOCHI_NAME가 '또 놀자!'를 연발했다." 
-                FEED=$((FEED - 10)) HAPPY=$((HAPPY + 20)) SOCIAL=$((SOCIAL+15)) MORAL=$((MORAL+5));;
+                FEED=$((FEED - 5)) HAPPY=$((HAPPY + 20)) SOCIAL=$((SOCIAL+15)) MORAL=$((MORAL+5));;
                 2) EVENT_SCRIPT="오늘 놀았던 일은 오래 기억에 남을 것 같다." 
-                FEED=$((FEED - 10)) HAPPY=$((HAPPY + 20)) SOCIAL=$((SOCIAL+15)) MORAL=$((MORAL+5));;
+                FEED=$((FEED - 5)) HAPPY=$((HAPPY + 20)) SOCIAL=$((SOCIAL+15)) MORAL=$((MORAL+5));;
             esac
             ;;
     esac
@@ -926,11 +926,11 @@ Random_Event_Script_Exercise(){
             local r=$(( RANDOM % 3 ))
             case "$r" in
                 0) EVENT_SCRIPT="완벽한 운동 루틴을 소화하고 뿌듯해한다." 
-                FEED=$((FEED - 10)) HAPPY=$((HAPPY + 15)) SOCIAL=$((SOCIAL+10)) VISUAL=$((VISUAL+10));;
+                FEED=$((FEED - 5)) HAPPY=$((HAPPY + 15)) SOCIAL=$((SOCIAL+10)) VISUAL=$((VISUAL+10));;
                 1) EVENT_SCRIPT="$DAMAGOCHI_NAME의 몸이 한층 건강해진 느낌이다." 
-                FEED=$((FEED - 10)) HAPPY=$((HAPPY + 15)) SOCIAL=$((SOCIAL+10)) VISUAL=$((VISUAL+10));;
+                FEED=$((FEED - 5)) HAPPY=$((HAPPY + 15)) SOCIAL=$((SOCIAL+10)) VISUAL=$((VISUAL+10));;
                 2) EVENT_SCRIPT="운동 후 상쾌함과 함께 기분도 최고가 되었다." 
-                FEED=$((FEED - 10)) HAPPY=$((HAPPY + 15)) SOCIAL=$((SOCIAL+10)) VISUAL=$((VISUAL+10));;
+                FEED=$((FEED - 5)) HAPPY=$((HAPPY + 15)) SOCIAL=$((SOCIAL+10)) VISUAL=$((VISUAL+10));;
             esac
             ;;
     esac
@@ -976,7 +976,7 @@ Random_Event2_Script(){
         5)
             # 포만감 증가
             EVENT_SCRIPT2="끝내주는 한 끼로 배를 채우고 나니, 배가 든든해져서 온몸에 힘이 다시 샘솟는 기분이 들었다."
-            FEED=$((FEED + 20))
+            FEED=$((FEED + 25))
             echo "포만감 +20"
             ;;
         6)
