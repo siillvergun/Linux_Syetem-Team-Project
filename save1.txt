@@ -1,9 +1,0 @@
-
-    DAMAGOCHI_NAME=건은
-    TURN=3
-    MAX_TURN=30
-    FEED=45
-    HAPPY=85
-    SOCIAL=50 
-    VISUAL=50 
-    MORAL=40
